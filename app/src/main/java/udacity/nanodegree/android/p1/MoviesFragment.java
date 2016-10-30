@@ -2,15 +2,15 @@ package udacity.nanodegree.android.p1;
 
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
-import android.widget.ImageView;
-
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,13 +30,21 @@ public class MoviesFragment extends Fragment implements FetchMovies.Callback {
         // Required empty public constructor
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        fetchMovies(new FetchPopularMovies());
         View view = inflater.inflate(R.layout.fragment_movies, container, false);
         movieGrid = (GridView) view.findViewById(R.id.grid_movies);
+
+        fetchMovies(new FetchPopularMovies());
+        getActivity().setTitle(getString(R.string.most_popular));
+
         return view;
     }
 
@@ -56,4 +64,27 @@ public class MoviesFragment extends Fragment implements FetchMovies.Callback {
         }
         movieGrid.setAdapter(new ImageAdapter(paths, getContext()));
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        item.setChecked(!item.isChecked());
+        switch (id) {
+            case R.id.action_order_popular:
+                fetchMovies(new FetchPopularMovies());
+                break;
+            case R.id.action_order_top:
+                fetchMovies(new FetchTopMovies());
+                break;
+        }
+        getActivity().setTitle(item.getTitle());
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.movies_fragment_menu, menu);
+    }
+
 }

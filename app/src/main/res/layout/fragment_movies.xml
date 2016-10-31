@@ -8,11 +8,11 @@
               android:id="@+id/grid_movies"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-                android:columnWidth="100dp"
+              android:columnWidth="100dp"
+              android:fastScrollEnabled="true"
               android:gravity="center"
               android:numColumns="auto_fit"
               android:stretchMode="columnWidth"
-              android:fastScrollEnabled="true"
 
 
         >

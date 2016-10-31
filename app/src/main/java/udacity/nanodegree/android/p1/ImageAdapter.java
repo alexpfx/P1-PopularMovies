@@ -18,11 +18,11 @@ import java.util.List;
  * Created by alexandre on 25/10/2016.
  */
 
-public class ImageAdapter extends ArrayAdapter<String> {
+public class ImageAdapter extends ArrayAdapter<ImageAdapter.Item> {
 
     private static final String TAG = "ImageAdapter";
 
-    public ImageAdapter(List<String> imagePaths, Context context) {
+    public ImageAdapter(List<Item> imagePaths, Context context) {
         super(context, 0, imagePaths);
     }
 
@@ -37,14 +37,32 @@ public class ImageAdapter extends ArrayAdapter<String> {
         ImageView imageView;
         imageView = (ImageView) view.findViewById(R.id.poster_image);
 
-        String path = (String) getItem(position);
+        String path = "http://image.tmdb.org/t/p/w185//" + getItem(position).path;
         Picasso.with(context).load(path).into(imageView);
         return view;
     }
 
-    @Nullable
-    @Override
-    public String getItem(int position) {
-        return "http://image.tmdb.org/t/p/w185//" + super.getItem(position);
+    static class Item{
+        public Item(int id, String path) {
+            this.id = id;
+            this.path = path;
+        }
+
+        private int id;
+        private String path;
+
+        public int getId() {
+            return id;
+        }
+
+        public String getPath() {
+            return path;
+        }
+
+        @Override
+        public String toString() {
+            return ""+id;
+        }
     }
+
 }

@@ -7,9 +7,9 @@ import android.util.Log;
  * Created by alexandre on 22/10/2016.
  */
 
-public class FetchPopularMovies implements FetchMovies.FetchRules {
+public class GetPopularMovies implements FetchMovies.FetchRules {
 
-    private static final String TAG = "FetchPopularMovies";
+    private static final String TAG = "GetPopularMovies";
 
     @Override
     public Uri composeUrl(Uri baseUrl) {

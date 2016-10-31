@@ -1,15 +1,18 @@
 package udacity.nanodegree.android.p1;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 
 import java.util.ArrayList;
@@ -42,7 +45,17 @@ public class MoviesFragment extends Fragment implements FetchMovies.Callback {
         View view = inflater.inflate(R.layout.fragment_movies, container, false);
         movieGrid = (GridView) view.findViewById(R.id.grid_movies);
 
-        fetchMovies(new FetchPopularMovies());
+        movieGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                ImageAdapter.Item item = (ImageAdapter.Item) adapterView.getItemAtPosition(position);
+                Intent intent = new Intent(getActivity(), DetailActivity.class).putExtra(Intent.EXTRA_TEXT, String.valueOf(item.getId()));
+                Log.d(TAG, "onItemClick: " + item);
+                startActivity(intent);
+            }
+        });
+
+        fetchMovies(new GetPopularMovies());
         getActivity().setTitle(getString(R.string.most_popular));
 
         return view;
@@ -58,9 +71,9 @@ public class MoviesFragment extends Fragment implements FetchMovies.Callback {
         Page page = jsonConverter.generate();
 
         List<Result> results = page.getResults();
-        List<String> paths = new ArrayList<>();
+        List<ImageAdapter.Item> paths = new ArrayList<>();
         for (Result r : results) {
-            paths.add(r.getBackdropPath());
+            paths.add(new ImageAdapter.Item(r.getId(), r.getBackdropPath()));
         }
         movieGrid.setAdapter(new ImageAdapter(paths, getContext()));
     }
@@ -71,10 +84,10 @@ public class MoviesFragment extends Fragment implements FetchMovies.Callback {
         item.setChecked(!item.isChecked());
         switch (id) {
             case R.id.action_order_popular:
-                fetchMovies(new FetchPopularMovies());
+                fetchMovies(new GetPopularMovies());
                 break;
             case R.id.action_order_top:
-                fetchMovies(new FetchTopMovies());
+                fetchMovies(new GetTopMovies());
                 break;
         }
         getActivity().setTitle(item.getTitle());

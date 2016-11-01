@@ -2,14 +2,13 @@ package udacity.nanodegree.android.p1;
 
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
@@ -18,6 +17,7 @@ import java.net.URL;
  */
 public class FetchMovies extends AsyncTask<String, Void, String> {
     private static final String URL_BASE = "https://api.themoviedb.org/3/movie/?";
+    private static final String TAG = "FetchMovies";
 
     public FetchMovies(FetchRules fetchRules, Callback callback) {
         this.fetchRules = fetchRules;
@@ -25,8 +25,8 @@ public class FetchMovies extends AsyncTask<String, Void, String> {
 
     }
 
-    private FetchRules fetchRules;
-    private Callback callback;
+    private final FetchRules fetchRules;
+    private final Callback callback;
 
 
     @Override
@@ -59,19 +59,17 @@ public class FetchMovies extends AsyncTask<String, Void, String> {
                 return "";
             }
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-            String line = null;
+            String line;
             StringBuilder sb = new StringBuilder();
             while ((line = reader.readLine()) != null) {
-                sb.append(line + "\n");
+                sb.append(line).append("\n");
             }
             if (sb.length() == 0) {
                 return "";
             }
             return sb.toString();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(TAG, "fetchData error: ", e);
         }
         return null;
     }

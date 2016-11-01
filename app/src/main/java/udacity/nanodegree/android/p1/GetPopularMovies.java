@@ -13,7 +13,7 @@ public class GetPopularMovies implements FetchMovies.FetchRules {
 
     @Override
     public Uri composeUrl(Uri baseUrl) {
-        Log.d(TAG, "composeUrl: "+baseUrl);
+        Log.d(TAG, "composeUrl: " + baseUrl);
         return baseUrl.buildUpon().appendPath("popular").build();
     }
 }

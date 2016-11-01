@@ -14,8 +14,9 @@
             android:id="@+id/text_title"
             android:layout_width="match_parent"
             android:layout_height="76dp"
-            android:gravity="center_vertical|left"
+            android:gravity="center_vertical|start"
             android:paddingLeft="32dp"
+            android:paddingRight="32dp"
             android:textAppearance="@android:style/TextAppearance.Material.Large"
             android:textColor="@color/colorWhite"
 
@@ -32,12 +33,12 @@
             android:id="@+id/image_poster"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:maxHeight="185dp"
             android:maxWidth="185dp"
             android:scaleType="fitCenter"
-            android:src="@mipmap/ic_launcher"
+            android:contentDescription="@string/movie_poster"
 
             />
 
@@ -45,7 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_toRightOf="@id/image_poster"
+            android:layout_toEndOf="@id/image_poster"
 
             android:orientation="vertical"
             >

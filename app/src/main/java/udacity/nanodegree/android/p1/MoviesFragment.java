@@ -14,6 +14,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.Toast;
+
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,13 +70,19 @@ public class MoviesFragment extends Fragment implements FetchMovies.Callback {
 
     @Override
     public void onReceived(String jsonData) {
-        JsonToMovieConverter jsonConverter = new JsonToMovieConverter(jsonData);
-        Page page = jsonConverter.generate();
+        Gson gson = new Gson();
+        Page page = gson.fromJson(jsonData, Page.class);
+
+        if (page == null) {
+            Toast.makeText(getContext(), R.string.message_not_connected, Toast.LENGTH_LONG).show();
+            return;
+        }
+
 
         List<Result> results = page.getResults();
         List<ImageAdapter.Item> paths = new ArrayList<>();
         for (Result r : results) {
-            paths.add(new ImageAdapter.Item(r.getId(), r.getBackdropPath()));
+            paths.add(new ImageAdapter.Item(r.getId(), r.getPosterPath()));
         }
         movieGrid.setAdapter(new ImageAdapter(paths, getContext()));
     }

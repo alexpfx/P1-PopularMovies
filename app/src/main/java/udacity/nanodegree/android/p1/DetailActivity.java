@@ -7,21 +7,19 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
+import java.util.Locale;
 
 import udacity.nanodegree.android.p1.domain.Result;
 
@@ -55,10 +53,6 @@ public class DetailActivity extends AppCompatActivity {
             setHasOptionsMenu(true);
         }
 
-        @Override
-        public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-            super.onCreateOptionsMenu(menu, inflater);
-        }
 
         @Nullable
         @Override
@@ -80,24 +74,31 @@ public class DetailActivity extends AppCompatActivity {
         public void onReceived(String data) {
             Gson gson = new Gson();
             Result result = gson.fromJson(data, Result.class);
+            if (result == null) {
+                Toast.makeText(getContext(), R.string.message_not_connected, Toast.LENGTH_LONG).show();
+                return;
+            }
 
             txtTitle.setText(result.getOriginalTitle());
             txtReleaseDate.setText(result.getReleaseDate());
-            String path = "http://image.tmdb.org/t/p/w342//" + result.getPosterPath();
+            String path = getString(R.string.tmdb_image_base_path) + result.getPosterPath();
             Picasso.with(getContext()).load(path).into(this.imgPoster);
 
-
+            Calendar calendar;
             try {
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(getString(R.string.date_format_us));
-                Calendar calendar = Calendar.getInstance();
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(getString(R.string.date_format), Locale.US);
+                calendar = Calendar.getInstance();
                 calendar.setTime(simpleDateFormat.parse(result.getReleaseDate()));
-                txtReleaseDate.setText(String.valueOf(calendar.get(Calendar.YEAR)));
+
             } catch (ParseException e) {
                 Log.e(TAG, "parse exception: ", e);
+                throw new RuntimeException(e);
             }
 
+            txtReleaseDate.setText(String.valueOf(calendar.get(Calendar.YEAR)));
             txtVoteAvg.setText(String.valueOf(result.getVoteAverage()));
             txtOverview.setText(String.valueOf(result.getOverview()));
+
 
         }
     }

@@ -1,7 +1,7 @@
 package udacity.nanodegree.android.p1;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,30 +26,32 @@ public class ImageAdapter extends ArrayAdapter<ImageAdapter.Item> {
         super(context, 0, imagePaths);
     }
 
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         Context context = getContext();
         View view = LayoutInflater.from(context).inflate(R.layout.grid_view_item, parent, false);
         GridView gridView = (GridView) parent;
-        gridView.setColumnWidth((gridView.getWidth()) / 3);
+        gridView.setColumnWidth((gridView.getWidth()) / 2);
         Log.d(TAG, "getView: " + parent);
 
         ImageView imageView;
         imageView = (ImageView) view.findViewById(R.id.poster_image);
 
-        String path = "http://image.tmdb.org/t/p/w185//" + getItem(position).path;
+        Item item = getItem(position);
+        String path = context.getString(R.string.tmdb_image_base_path) + item.getPath();
         Picasso.with(context).load(path).into(imageView);
         return view;
     }
 
-    static class Item{
+    static class Item {
         public Item(int id, String path) {
             this.id = id;
             this.path = path;
         }
 
-        private int id;
-        private String path;
+        private final int id;
+        private final String path;
 
         public int getId() {
             return id;
@@ -61,7 +63,7 @@ public class ImageAdapter extends ArrayAdapter<ImageAdapter.Item> {
 
         @Override
         public String toString() {
-            return ""+id;
+            return "" + id;
         }
     }
 

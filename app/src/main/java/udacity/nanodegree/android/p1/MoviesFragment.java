@@ -21,6 +21,9 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnItemClick;
 import udacity.nanodegree.android.p1.domain.Page;
 import udacity.nanodegree.android.p1.domain.Result;
 
@@ -30,7 +33,9 @@ import udacity.nanodegree.android.p1.domain.Result;
  */
 public class MoviesFragment extends Fragment implements FetchMovies.Callback {
     private static final String TAG = "MoviesFragment";
-    private GridView movieGrid;
+
+    @BindView(R.id.grid_movies)
+    GridView movieGrid;
 
     public MoviesFragment() {
         // Required empty public constructor
@@ -42,22 +47,20 @@ public class MoviesFragment extends Fragment implements FetchMovies.Callback {
         setHasOptionsMenu(true);
     }
 
+
+    @OnItemClick(R.id.grid_movies)
+    public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+        ImageAdapter.Item item = (ImageAdapter.Item) adapterView.getItemAtPosition(position);
+        Intent intent = new Intent(getActivity(), DetailActivity.class).putExtra(Intent.EXTRA_TEXT, String.valueOf(item.getId()));
+        Log.d(TAG, "onItemClick: " + item);
+        startActivity(intent);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_movies, container, false);
-        movieGrid = (GridView) view.findViewById(R.id.grid_movies);
-
-        movieGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                ImageAdapter.Item item = (ImageAdapter.Item) adapterView.getItemAtPosition(position);
-                Intent intent = new Intent(getActivity(), DetailActivity.class).putExtra(Intent.EXTRA_TEXT, String.valueOf(item.getId()));
-                Log.d(TAG, "onItemClick: " + item);
-                startActivity(intent);
-            }
-        });
-
+        ButterKnife.bind(this, view);
         fetchMovies(new GetPopularMovies());
         getActivity().setTitle(getString(R.string.most_popular));
 

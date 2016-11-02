@@ -21,6 +21,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import udacity.nanodegree.android.p1.domain.Result;
 
 public class DetailActivity extends AppCompatActivity {
@@ -41,11 +43,20 @@ public class DetailActivity extends AppCompatActivity {
 
 
     public static class DetailFragment extends Fragment implements FetchMovies.Callback {
-        private TextView txtTitle;
-        private ImageView imgPoster;
-        private TextView txtVoteAvg;
-        private TextView txtOverview;
-        private TextView txtReleaseDate;
+
+        @BindView(R.id.text_title)
+        TextView txtTitle;
+        @BindView(R.id.image_poster)
+        ImageView imgPoster;
+
+        @BindView(R.id.text_vote_avg)
+        TextView txtVoteAvg;
+
+        @BindView(R.id.text_overview)
+        TextView txtOverview;
+
+        @BindView(R.id.text_release_date)
+        TextView txtReleaseDate;
 
         @Override
         public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,17 +68,12 @@ public class DetailActivity extends AppCompatActivity {
         @Nullable
         @Override
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.detail_fragment, container, false);
-
-            this.txtTitle = (TextView) rootView.findViewById(R.id.text_title);
-            this.imgPoster = (ImageView) rootView.findViewById(R.id.image_poster);
-            this.txtVoteAvg = (TextView) rootView.findViewById(R.id.text_vote_avg);
-            this.txtReleaseDate = (TextView) rootView.findViewById(R.id.text_release_date);
-            this.txtOverview = (TextView) rootView.findViewById(R.id.text_overview);
+            View view = inflater.inflate(R.layout.detail_fragment, container, false);
+            ButterKnife.bind(this, view);
 
             String id = getActivity().getIntent().getStringExtra(Intent.EXTRA_TEXT);
             new FetchMovies(new GetMovie(id), this).execute();
-            return rootView;
+            return view;
         }
 
         @Override

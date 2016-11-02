@@ -14,6 +14,9 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Created by alexandre on 25/10/2016.
  */
@@ -26,21 +29,23 @@ public class ImageAdapter extends ArrayAdapter<ImageAdapter.Item> {
         super(context, 0, imagePaths);
     }
 
+    @BindView(R.id.poster_image)
+    ImageView imageView;
+
     @NonNull
     @Override
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         Context context = getContext();
         View view = LayoutInflater.from(context).inflate(R.layout.grid_view_item, parent, false);
+        ButterKnife.bind(this, view);
+
         GridView gridView = (GridView) parent;
         gridView.setColumnWidth((gridView.getWidth()) / 2);
-        Log.d(TAG, "getView: " + parent);
-
-        ImageView imageView;
-        imageView = (ImageView) view.findViewById(R.id.poster_image);
 
         Item item = getItem(position);
         String path = context.getString(R.string.tmdb_image_base_path) + item.getPath();
         Picasso.with(context).load(path).into(imageView);
+
         return view;
     }
 

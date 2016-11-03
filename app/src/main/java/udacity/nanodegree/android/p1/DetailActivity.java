@@ -87,9 +87,9 @@ public class DetailActivity extends AppCompatActivity {
 
             txtTitle.setText(result.getOriginalTitle());
             txtReleaseDate.setText(result.getReleaseDate());
-            String path = getString(R.string.tmdb_image_base_path) + result.getPosterPath();
-            Picasso.with(getContext()).load(path).into(this.imgPoster);
+            String path = getString(R.string.tmdb_image_base_path) + result.getPosterPath() + "x";
 
+            Picasso.with(getContext()).load(path).placeholder(R.drawable.loading).error(R.drawable.error).into(this.imgPoster);
             Calendar calendar;
             try {
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat(getString(R.string.date_format), Locale.US);

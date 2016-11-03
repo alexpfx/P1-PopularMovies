@@ -44,7 +44,8 @@ public class ImageAdapter extends ArrayAdapter<ImageAdapter.Item> {
 
         Item item = getItem(position);
         String path = context.getString(R.string.tmdb_image_base_path) + item.getPath();
-        Picasso.with(context).load(path).into(imageView);
+
+        Picasso.with(context).load(path).placeholder(R.drawable.loading).error(R.drawable.error).into(imageView);
 
         return view;
     }

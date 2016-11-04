@@ -149,4 +149,5 @@ public class Result {
         this.voteAverage = voteAverage;
     }
 
+
 }

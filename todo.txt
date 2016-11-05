@@ -1,0 +1,11 @@
+
+code review 1:
+- usar Parcelable
+- ButterKnife
+
+
+code review 2:
+
+- usar convertView
+- implementar viewHolder pattern
+- utilizar OkHttp ou Volley no lugar de AsyncTask

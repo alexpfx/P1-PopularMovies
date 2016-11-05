@@ -2,7 +2,6 @@ package udacity.nanodegree.android.p1;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +35,7 @@ public class ImageAdapter extends ArrayAdapter<ImageAdapter.Item> {
     @Override
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         Context context = getContext();
-        View view = LayoutInflater.from(context).inflate(R.layout.grid_view_item, parent, false);
+        View view = (convertView != null) ? convertView : LayoutInflater.from(context).inflate(R.layout.grid_view_item, parent, false);
         ButterKnife.bind(this, view);
 
         GridView gridView = (GridView) parent;

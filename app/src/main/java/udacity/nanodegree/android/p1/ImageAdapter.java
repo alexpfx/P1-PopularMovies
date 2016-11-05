@@ -13,9 +13,6 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 /**
  * Created by alexandre on 25/10/2016.
  */
@@ -28,15 +25,22 @@ public class ImageAdapter extends ArrayAdapter<ImageAdapter.Item> {
         super(context, 0, imagePaths);
     }
 
-    @BindView(R.id.poster_image)
-    ImageView imageView;
 
     @NonNull
     @Override
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         Context context = getContext();
-        View view = (convertView != null) ? convertView : LayoutInflater.from(context).inflate(R.layout.grid_view_item, parent, false);
-        ButterKnife.bind(this, view);
+
+
+        ViewHolder holder;
+        if (convertView == null) {
+            convertView = LayoutInflater.from(context).inflate(R.layout.grid_view_item, parent, false);
+            holder = new ViewHolder();
+            holder.posterImage = (ImageView) convertView.findViewById(R.id.poster_image);
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
+        }
 
         GridView gridView = (GridView) parent;
         gridView.setColumnWidth((gridView.getWidth()) / 2);
@@ -44,9 +48,14 @@ public class ImageAdapter extends ArrayAdapter<ImageAdapter.Item> {
         Item item = getItem(position);
         String path = context.getString(R.string.tmdb_image_base_path) + item.getPath();
 
-        Picasso.with(context).load(path).placeholder(R.drawable.loading).error(R.drawable.error).into(imageView);
+        Picasso.with(context).load(path).placeholder(R.drawable.loading).error(R.drawable.error).into(holder.posterImage);
 
-        return view;
+        return convertView;
+    }
+
+
+    static class ViewHolder {
+        private ImageView posterImage;
     }
 
     static class Item {

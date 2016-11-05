@@ -54,19 +54,23 @@ public class FetchMovies extends AsyncTask<String, Void, String> {
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("GET");
             urlConnection.connect();
-            InputStream inputStream = urlConnection.getInputStream();
-            if (inputStream == null) {
-                return "";
-            }
-            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-            String line;
             StringBuilder sb = new StringBuilder();
-            while ((line = reader.readLine()) != null) {
-                sb.append(line).append("\n");
+
+            try (InputStream inputStream = urlConnection.getInputStream()) {
+                if (inputStream == null) {
+                    return "";
+                }
+                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+                String line;
+
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line).append("\n");
+                }
+                if (sb.length() == 0) {
+                    return "";
+                }
             }
-            if (sb.length() == 0) {
-                return "";
-            }
+
             return sb.toString();
         } catch (IOException e) {
             Log.e(TAG, "fetchData error: ", e);

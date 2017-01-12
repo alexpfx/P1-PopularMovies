@@ -1,52 +1,40 @@
-package udacity.nanodegree.android.p1.domain;
+package udacity.nanodegree.android.p1.network.dto;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import javax.annotation.Generated;
 
-@SuppressWarnings("unused")
-@Generated("org.jsonschema2pojo")
 public class Result {
 
     @SerializedName("poster_path")
-    @Expose
     private String posterPath;
 
     @SerializedName("overview")
-    @Expose
     private String overview;
 
     @SerializedName("release_date")
-    @Expose
     private String releaseDate;
 
     @SerializedName("id")
-    @Expose
     private Integer id;
 
     @SerializedName("original_title")
-    @Expose
     private String originalTitle;
 
     @SerializedName("original_language")
-    @Expose
     private String originalLanguage;
 
     @SerializedName("title")
-    @Expose
     private String title;
 
     @SerializedName("popularity")
-    @Expose
     private Double popularity;
 
     @SerializedName("vote_count")
-    @Expose
     private Integer voteCount;
 
     @SerializedName("vote_average")
-    @Expose
     private Double voteAverage;
 
 

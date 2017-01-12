@@ -23,7 +23,7 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import udacity.nanodegree.android.p1.domain.Result;
+import udacity.nanodegree.android.p1.network.dto.Result;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -80,6 +80,7 @@ public class DetailActivity extends AppCompatActivity {
         public void onReceived(String data) {
             Gson gson = new Gson();
             Result result = gson.fromJson(data, Result.class);
+            Log.d(TAG, "onReceived: "+result);
             if (result == null) {
                 Toast.makeText(getContext(), R.string.message_not_connected, Toast.LENGTH_LONG).show();
                 return;

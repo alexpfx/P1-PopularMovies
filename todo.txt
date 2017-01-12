@@ -1,12 +1,14 @@
+- organizar em pacotes
+- refactoring nome de classes e métodos
+- implementar data binding
+- trocar todas listview para recyclerview.
+- utilizar OkHttp ou Volley em vez de AsynkTask
+- parcelable
+- mostrar mensagem de erro apropriadamente
+- adicionar spinner para loading
+- implementar material design
+- extrair cores e estilos, criar Theme.
+ok- fazer esquema da apikey igual ao P2
+ok- remover annotations das classes de domain se possivel
+ok-remover MyApplication
 
-code review 1:
-- usar Parcelable
-- ButterKnife
-
-
-code review 2:
-
-- usar convertView
-- implementar viewHolder pattern
-- utilizar OkHttp ou Volley no lugar de AsyncTask
-- utilizar RecyclerView em vez de GridView

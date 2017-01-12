@@ -1,28 +1,19 @@
-package udacity.nanodegree.android.p1.domain;
+package udacity.nanodegree.android.p1.network.dto;
 
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Generated;
-
-@SuppressWarnings("unused")
-@Generated("org.jsonschema2pojo")
 public class Page {
 
     @SerializedName("page")
-    @Expose
     private Integer page;
     @SerializedName("results")
-    @Expose
     private List<Result> results = new ArrayList<Result>();
     @SerializedName("total_results")
-    @Expose
     private Integer totalResults;
     @SerializedName("total_pages")
-    @Expose
     private Integer totalPages;
 
 

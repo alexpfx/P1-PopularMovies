@@ -24,8 +24,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnItemClick;
-import udacity.nanodegree.android.p1.domain.Page;
-import udacity.nanodegree.android.p1.domain.Result;
+import udacity.nanodegree.android.p1.network.dto.Page;
+import udacity.nanodegree.android.p1.network.dto.Result;
 
 
 /**

@@ -20,10 +20,10 @@ import udacity.nanodegree.android.p1.network.fetch.MovieDbUriComposer;
  * Created by alexandre on 12/01/2017.
  */
 
-public class AsynkTaskFetcher extends AbstractMovieDbFetcher implements MovieDbFetcher {
+public class AsyncTaskFetcher extends AbstractMovieDbFetcher implements MovieDbFetcher {
 
 
-    protected AsynkTaskFetcher(Context context,
+    protected AsyncTaskFetcher(Context context,
             MovieDbUriComposer movieDbUriComposer,
             MovieDbResponseListener responseListener) {
         super(context, movieDbUriComposer, responseListener);

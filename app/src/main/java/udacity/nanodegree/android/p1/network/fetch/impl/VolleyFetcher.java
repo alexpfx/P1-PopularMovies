@@ -41,7 +41,7 @@ public class VolleyFetcher extends AbstractMovieDbFetcher implements Response.Er
 
 
     @Override
-    protected void start(Uri uri) {
+    protected void doFetch(Uri uri) {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
                 uri.toString(), null, this, this);
         RequestQueue queue = Volley.newRequestQueue(getContext());

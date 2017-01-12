@@ -26,12 +26,12 @@ public abstract class AbstractMovieDbFetcher implements MovieDbFetcher {
 
     @Override
     public void startFetch() {
-        start(mMovieDbUriComposer.compose(Uri.parse(BASE_URL)).buildUpon().appendQueryParameter(
+        doFetch(mMovieDbUriComposer.compose(Uri.parse(BASE_URL)).buildUpon().appendQueryParameter(
                 API_KEY_PARAM,
                 BuildConfig.MOVIE_DB_API_KEY).build());
     }
 
-    protected abstract void start(Uri uri);
+    protected abstract void doFetch(Uri uri);
 
 
     public Context getContext() {

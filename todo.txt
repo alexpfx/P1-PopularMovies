@@ -1,9 +1,10 @@
-- organizar em pacotes
+- verificar utilidade de implementar MVP
 - refactoring nome de classes e métodos
 - implementar data binding
 - trocar todas listview para recyclerview.
 - utilizar OkHttp ou Volley em vez de AsynkTask
 - parcelable
+- implementar FetchMovies com OkHttp
 - mostrar mensagem de erro apropriadamente
 - adicionar spinner para loading
 - implementar material design
@@ -11,4 +12,5 @@
 ok- fazer esquema da apikey igual ao P2
 ok- remover annotations das classes de domain se possivel
 ok-remover MyApplication
+ok- organizar em pacotes
 

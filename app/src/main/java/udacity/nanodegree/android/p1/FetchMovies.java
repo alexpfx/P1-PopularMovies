@@ -15,6 +15,7 @@ import java.net.URL;
  * Created by alexandre on 22/10/2016.
  * Generic Task responsible for fetch data from moviedb.
  */
+@Deprecated
 public class FetchMovies extends AsyncTask<String, Void, String> {
     private static final String URL_BASE = "https://api.themoviedb.org/3/movie/?";
     private static final String TAG = "FetchMovies";

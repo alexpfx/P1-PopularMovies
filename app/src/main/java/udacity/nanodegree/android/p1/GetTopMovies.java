@@ -5,6 +5,7 @@ import android.net.Uri;
 /**
  * Created by alexandre on 23/10/2016.
  */
+@Deprecated
 public class GetTopMovies implements FetchMovies.FetchRules {
     @Override
     public Uri composeUrl(Uri baseUrl) {

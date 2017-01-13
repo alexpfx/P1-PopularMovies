@@ -5,6 +5,7 @@ import android.net.Uri;
 /**
  * Created by alexandre on 30/10/2016.
  */
+@Deprecated
 public class GetMovie implements FetchMovies.FetchRules {
     private final String id;
 

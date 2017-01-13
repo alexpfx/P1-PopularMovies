@@ -6,7 +6,7 @@ import android.util.Log;
 /**
  * Created by alexandre on 22/10/2016.
  */
-
+@Deprecated
 public class GetPopularMovies implements FetchMovies.FetchRules {
 
     private static final String TAG = "GetPopularMovies";

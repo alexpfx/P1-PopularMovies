@@ -12,6 +12,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import udacity.nanodegree.android.p1.R;
 import udacity.nanodegree.android.p1.network.fetch.AbstractMovieFetcher;
 import udacity.nanodegree.android.p1.network.fetch.MovieFetcher;
 import udacity.nanodegree.android.p1.network.fetch.UriComposer;
@@ -21,6 +22,8 @@ import udacity.nanodegree.android.p1.network.fetch.UriComposer;
  */
 
 public class AsyncTaskFetcher extends AbstractMovieFetcher implements MovieFetcher {
+
+    public static final String GET = "GET";
 
     public AsyncTaskFetcher(Context context,
             UriComposer movieDbUriComposer,
@@ -53,7 +56,7 @@ public class AsyncTaskFetcher extends AbstractMovieFetcher implements MovieFetch
         try {
             URL url = new URL(uri.toString());
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setRequestMethod("GET");
+            urlConnection.setRequestMethod(GET);
             urlConnection.connect();
             StringBuilder sb = new StringBuilder();
 
@@ -65,7 +68,7 @@ public class AsyncTaskFetcher extends AbstractMovieFetcher implements MovieFetch
                 String line;
 
                 while ((line = reader.readLine()) != null) {
-                    sb.append(line).append("\n");
+                    sb.append(line).append(System.lineSeparator());
                 }
                 if (sb.length() == 0) {
                     return "";
@@ -74,11 +77,7 @@ public class AsyncTaskFetcher extends AbstractMovieFetcher implements MovieFetch
 
             return sb.toString();
         } catch (IOException e) {
-            if (getErrorListener() != null) {
-                getErrorListener().onError(e.getMessage(), null, e);
-            } else {
-
-            }
+            getErrorListener().onError(getContext().getString(R.string.error_not_connected), null, e);
         }
         return null;
     }

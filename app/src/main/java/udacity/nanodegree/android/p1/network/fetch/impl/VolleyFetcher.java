@@ -13,6 +13,7 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONObject;
 
+import udacity.nanodegree.android.p1.R;
 import udacity.nanodegree.android.p1.network.fetch.AbstractMovieFetcher;
 import udacity.nanodegree.android.p1.network.fetch.MovieFetcher;
 import udacity.nanodegree.android.p1.network.fetch.UriComposer;
@@ -43,11 +44,8 @@ public class VolleyFetcher extends AbstractMovieFetcher implements Response.Erro
 
 
     @Override
-    public void onErrorResponse(VolleyError error) {
-        if (getErrorListener() == null) {
-            return;
-        }
-        getErrorListener().onError(error.getMessage(), error.networkResponse, error.getCause());
+    public void onErrorResponse(VolleyError e) {
+        getErrorListener().onError(getContext().getString(R.string.error_not_connected), null, e);
     }
 
     @Override

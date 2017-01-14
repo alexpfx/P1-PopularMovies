@@ -22,13 +22,6 @@ import udacity.nanodegree.android.p1.network.fetch.UriComposer;
 
 public class AsyncTaskFetcher extends AbstractMovieFetcher implements MovieFetcher {
 
-
-    protected AsyncTaskFetcher(Context context,
-            UriComposer movieDbUriComposer,
-            ResponseListener responseListener) {
-        super(context, movieDbUriComposer, responseListener);
-    }
-
     public AsyncTaskFetcher(Context context,
             UriComposer movieDbUriComposer,
             ResponseListener responseListener,
@@ -83,6 +76,8 @@ public class AsyncTaskFetcher extends AbstractMovieFetcher implements MovieFetch
         } catch (IOException e) {
             if (getErrorListener() != null) {
                 getErrorListener().onError(e.getMessage(), null, e);
+            } else {
+
             }
         }
         return null;

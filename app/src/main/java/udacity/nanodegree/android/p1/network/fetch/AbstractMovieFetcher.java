@@ -2,7 +2,6 @@ package udacity.nanodegree.android.p1.network.fetch;
 
 import android.content.Context;
 import android.net.Uri;
-import android.support.annotation.Nullable;
 
 import udacity.nanodegree.android.p1.BuildConfig;
 
@@ -18,16 +17,14 @@ public abstract class AbstractMovieFetcher implements MovieFetcher {
     private final ResponseListener mResponseListener;
     private ErrorListener mErrorListener;
 
+
     protected AbstractMovieFetcher(Context context,
-            UriComposer movieDbUriComposer, ResponseListener responseListener) {
+            UriComposer movieDbUriComposer, ResponseListener responseListener,
+            ErrorListener errorListener) {
         mMovieDbUriComposer = movieDbUriComposer;
         mContext = context;
         this.mResponseListener = responseListener;
-    }
-    protected AbstractMovieFetcher(Context context,
-            UriComposer movieDbUriComposer, ResponseListener responseListener, @Nullable ErrorListener errorListener) {
-        this(context, movieDbUriComposer, responseListener);
-        mErrorListener = errorListener;
+        this.mErrorListener = errorListener;
     }
 
     @Override

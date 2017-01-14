@@ -24,16 +24,11 @@ import udacity.nanodegree.android.p1.network.fetch.UriComposer;
 public class OkHttpFetcher extends AbstractMovieFetcher implements MovieFetcher, Callback {
     private static final String TAG = "OkHttpFetcher";
 
-    protected OkHttpFetcher(Context context,
-            UriComposer movieDbUriComposer,
-            ResponseListener responseListener) {
-        super(context, movieDbUriComposer, responseListener);
-    }
 
     public OkHttpFetcher(Context context,
             UriComposer movieDbUriComposer,
             ResponseListener responseListener,
-            @Nullable ErrorListener errorListener) {
+            ErrorListener errorListener) {
         super(context, movieDbUriComposer, responseListener, errorListener);
     }
 

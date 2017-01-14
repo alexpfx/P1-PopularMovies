@@ -1,6 +1,7 @@
 package udacity.nanodegree.android.p1.network.fetch.impl;
 
 import android.net.Uri;
+import android.support.annotation.Nullable;
 import android.support.test.filters.SmallTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -42,8 +43,13 @@ public class OkHttpFetcherTest extends AbstractAsynkTest{
                 }, new MovieFetcher.ResponseListener() {
             @Override
             public void onResponse(String data) {
-                Log.d(TAG, "onResponse: "+data);
+                Log.d(TAG, "onResponse: " + data);
                 open();
+            }
+        }, new MovieFetcher.ErrorListener() {
+            @Override
+            public void onError(String msg, @Nullable Object info, Throwable e) {
+
             }
         });
 

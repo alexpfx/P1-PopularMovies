@@ -27,11 +27,6 @@ public class VolleyFetcher extends AbstractMovieFetcher implements Response.Erro
 
 
     public VolleyFetcher(Context context,
-            UriComposer movieDbUriComposer, ResponseListener responseListener) {
-        super(context, movieDbUriComposer, responseListener);
-    }
-
-    public VolleyFetcher(Context context,
             UriComposer movieDbUriComposer,
             ResponseListener responseListener,
             @Nullable ErrorListener errorListener) {

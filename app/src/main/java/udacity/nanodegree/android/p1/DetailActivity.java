@@ -82,7 +82,7 @@ public class DetailActivity extends AppCompatActivity {
             Result result = gson.fromJson(data, Result.class);
             Log.d(TAG, "onReceived: "+result);
             if (result == null) {
-                Toast.makeText(getContext(), R.string.message_not_connected, Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), R.string.error_not_connected, Toast.LENGTH_LONG).show();
                 return;
             }
 

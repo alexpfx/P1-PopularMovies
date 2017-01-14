@@ -11,8 +11,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import udacity.nanodegree.android.p1.MainActivity;
-import udacity.nanodegree.android.p1.network.fetch.MovieDbResponseListener;
-import udacity.nanodegree.android.p1.network.fetch.MovieDbUriComposer;
+import udacity.nanodegree.android.p1.network.fetch.MovieFetcher;
+import udacity.nanodegree.android.p1.network.fetch.UriComposer;
 
 /**
  * Created by alexandre on 12/01/2017.
@@ -29,12 +29,12 @@ public class AsyncTaskFetcherTest extends AbstractAsynkTest{
     @Test
     public void doFetch() throws Throwable {
 
-        new AsyncTaskFetcher(mainActivityRule.getActivity(), new MovieDbUriComposer() {
+        new AsyncTaskFetcher(mainActivityRule.getActivity(), new UriComposer() {
             @Override
             public Uri compose(Uri baseUrl) {
                 return baseUrl.buildUpon().appendPath("455").build();
             }
-        }, new MovieDbResponseListener() {
+        }, new MovieFetcher.ResponseListener() {
             @Override
             public void onResponse(String data) {
                 Log.d(TAG, "onResponse: " + data);

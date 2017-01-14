@@ -2,6 +2,7 @@ package udacity.nanodegree.android.p1.network.fetch.impl;
 
 import android.content.Context;
 import android.net.Uri;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import java.io.IOException;
@@ -11,22 +12,29 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import udacity.nanodegree.android.p1.network.fetch.AbstractMovieDbFetcher;
-import udacity.nanodegree.android.p1.network.fetch.MovieDbFetcher;
-import udacity.nanodegree.android.p1.network.fetch.MovieDbResponseListener;
-import udacity.nanodegree.android.p1.network.fetch.MovieDbUriComposer;
+import udacity.nanodegree.android.p1.R;
+import udacity.nanodegree.android.p1.network.fetch.AbstractMovieFetcher;
+import udacity.nanodegree.android.p1.network.fetch.MovieFetcher;
+import udacity.nanodegree.android.p1.network.fetch.UriComposer;
 
 /**
  * Created by alexandre on 14/01/2017.
  */
 
-public class OkHttpFetcher extends AbstractMovieDbFetcher implements MovieDbFetcher, Callback {
+public class OkHttpFetcher extends AbstractMovieFetcher implements MovieFetcher, Callback {
     private static final String TAG = "OkHttpFetcher";
 
     protected OkHttpFetcher(Context context,
-            MovieDbUriComposer movieDbUriComposer,
-            MovieDbResponseListener responseListener) {
+            UriComposer movieDbUriComposer,
+            ResponseListener responseListener) {
         super(context, movieDbUriComposer, responseListener);
+    }
+
+    public OkHttpFetcher(Context context,
+            UriComposer movieDbUriComposer,
+            ResponseListener responseListener,
+            @Nullable ErrorListener errorListener) {
+        super(context, movieDbUriComposer, responseListener, errorListener);
     }
 
     @Override
@@ -40,7 +48,7 @@ public class OkHttpFetcher extends AbstractMovieDbFetcher implements MovieDbFetc
 
     @Override
     public void onFailure(Call call, IOException e) {
-        getErrorListener().onError("network error ", call, e);
+        getErrorListener().onError(getContext().getString(R.string.error_not_connected), call, e);
     }
 
     @Override

@@ -2,6 +2,7 @@ package udacity.nanodegree.android.p1.network.fetch;
 
 import android.content.Context;
 import android.net.Uri;
+import android.support.annotation.Nullable;
 
 import udacity.nanodegree.android.p1.BuildConfig;
 
@@ -9,19 +10,24 @@ import udacity.nanodegree.android.p1.BuildConfig;
  * Created by alexandre on 11/01/2017.
  */
 
-public abstract class AbstractMovieDbFetcher implements MovieDbFetcher {
+public abstract class AbstractMovieFetcher implements MovieFetcher {
     public static final String API_KEY_PARAM = "api_key";
-    private MovieDbUriComposer mMovieDbUriComposer;
+    private UriComposer mMovieDbUriComposer;
     private static final String BASE_URL = "https://api.themoviedb.org/3/movie/?";
     private Context mContext;
-    private final MovieDbResponseListener mResponseListener;
-    private MovieDbErrorListener mErrorListener;
+    private final ResponseListener mResponseListener;
+    private ErrorListener mErrorListener;
 
-    protected AbstractMovieDbFetcher(Context context,
-            MovieDbUriComposer movieDbUriComposer, MovieDbResponseListener responseListener) {
+    protected AbstractMovieFetcher(Context context,
+            UriComposer movieDbUriComposer, ResponseListener responseListener) {
         mMovieDbUriComposer = movieDbUriComposer;
         mContext = context;
         this.mResponseListener = responseListener;
+    }
+    protected AbstractMovieFetcher(Context context,
+            UriComposer movieDbUriComposer, ResponseListener responseListener, @Nullable ErrorListener errorListener) {
+        this(context, movieDbUriComposer, responseListener);
+        mErrorListener = errorListener;
     }
 
     @Override
@@ -38,16 +44,16 @@ public abstract class AbstractMovieDbFetcher implements MovieDbFetcher {
         return mContext;
     }
 
-    public MovieDbResponseListener getResponseListener() {
+    public ResponseListener getResponseListener() {
         return mResponseListener;
     }
 
     public void setErrorListener(
-            MovieDbErrorListener errorListener) {
+            ErrorListener errorListener) {
         mErrorListener = errorListener;
     }
 
-    public MovieDbErrorListener getErrorListener() {
+    public ErrorListener getErrorListener() {
         return mErrorListener;
     }
 }

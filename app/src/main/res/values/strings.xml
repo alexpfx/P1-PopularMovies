@@ -8,6 +8,6 @@
     <string name="top_rated">Highest Rated</string>
     <string name="date_format">yyyy-MM-dd</string>
     <string name="movie_poster">Movie Poster</string>
-    <string name="message_not_connected">Unable to retrieve movie data, please make sure you are connected</string>
+    <string name="error_not_connected">Unable to retrieve movie data, please make sure you are connected</string>
     <string name="tmdb_image_base_path">http://image.tmdb.org/t/p/w342//</string>
 </resources>

@@ -12,8 +12,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import udacity.nanodegree.android.p1.MainActivity;
-import udacity.nanodegree.android.p1.network.fetch.MovieDbResponseListener;
-import udacity.nanodegree.android.p1.network.fetch.MovieDbUriComposer;
+import udacity.nanodegree.android.p1.network.fetch.MovieFetcher;
+import udacity.nanodegree.android.p1.network.fetch.UriComposer;
 
 /**
  * Created by alexandre on 11/01/2017.
@@ -30,12 +30,12 @@ public class VolleyFetcherTest extends AbstractAsynkTest {
     @Test
     public void start() throws Throwable {
         new VolleyFetcher(mainActivityRule.getActivity().getApplicationContext(),
-                new MovieDbUriComposer() {
+                new UriComposer() {
                     @Override
                     public Uri compose(Uri baseUrl) {
                         return baseUrl.buildUpon().appendPath("550").build();
                     }
-                }, new MovieDbResponseListener() {
+                }, new MovieFetcher.ResponseListener() {
             @Override
             public void onResponse(String data) {
                 Assert.assertNotNull(data);

@@ -1,7 +1,5 @@
 package udacity.nanodegree.android.p1.network.fetch.impl;
 
-import static org.junit.Assert.*;
-
 import android.net.Uri;
 import android.support.test.filters.SmallTest;
 import android.support.test.rule.ActivityTestRule;
@@ -14,8 +12,8 @@ import org.junit.Rule;
 import org.junit.runner.RunWith;
 
 import udacity.nanodegree.android.p1.MainActivity;
-import udacity.nanodegree.android.p1.network.fetch.MovieDbResponseListener;
-import udacity.nanodegree.android.p1.network.fetch.MovieDbUriComposer;
+import udacity.nanodegree.android.p1.network.fetch.MovieFetcher;
+import udacity.nanodegree.android.p1.network.fetch.UriComposer;
 
 /**
  * Created by alexandre on 14/01/2017.
@@ -36,12 +34,12 @@ public class OkHttpFetcherTest extends AbstractAsynkTest{
     @Before
     public void setUp() throws Exception {
         mOkHttpFetcher = new OkHttpFetcher(mainActivityRule.getActivity(),
-                new MovieDbUriComposer() {
+                new UriComposer() {
                     @Override
                     public Uri compose(Uri baseUrl) {
                         return null;
                     }
-                }, new MovieDbResponseListener() {
+                }, new MovieFetcher.ResponseListener() {
             @Override
             public void onResponse(String data) {
                 Log.d(TAG, "onResponse: "+data);

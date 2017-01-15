@@ -50,7 +50,7 @@ public class OkHttpFetcher extends AbstractMovieFetcher implements MovieFetcher,
     public void onResponse(Call call, Response response) throws IOException {
         if (!response.isSuccessful()) onFailure(call, new IOException(response.message()));
 
-        Log.d(TAG, "onResponse: " + response.body().toString());
+        getResponseListener().onResponse(response.body().string());
 
     }
 }

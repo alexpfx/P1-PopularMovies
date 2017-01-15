@@ -15,6 +15,7 @@ import org.junit.runner.RunWith;
 import udacity.nanodegree.android.p1.MainActivity;
 import udacity.nanodegree.android.p1.network.fetch.MovieFetcher;
 import udacity.nanodegree.android.p1.network.fetch.UriComposer;
+import udacity.nanodegree.android.p1.util.AbstractAsynkTest;
 
 /**
  * Created by alexandre on 11/01/2017.
@@ -46,6 +47,8 @@ public class VolleyFetcherTest extends AbstractAsynkTest {
         }, new MovieFetcher.ErrorListener() {
             @Override
             public void onError(String msg, @Nullable Object info, Throwable e) {
+                e.printStackTrace();
+                open();
 
             }
         }).startFetch();

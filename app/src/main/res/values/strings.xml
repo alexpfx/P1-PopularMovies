@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">P1-PopularMovies</string>
 
     <!-- TODO: Remove or change this placeholder text -->
@@ -9,5 +9,18 @@
     <string name="date_format">yyyy-MM-dd</string>
     <string name="movie_poster">Movie Poster</string>
     <string name="error_not_connected">Unable to retrieve movie data, please make sure you are connected</string>
-    <string name="tmdb_image_base_path">http://image.tmdb.org/t/p/w342//</string>
+
+    <string name="tmdb_image_base_path">
+        <xliff:g id="tmdb_base_url">
+            http://image.tmdb.org/t/p/w342/%s
+        </xliff:g>
+    </string>
+
+    <string name="tmdb_api_base_url">
+        <xliff:g id="tmdb_api_base_url">
+            https://api.themoviedb.org/3/movie/?
+        </xliff:g>
+    </string>
+
+
 </resources>

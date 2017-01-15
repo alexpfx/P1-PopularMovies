@@ -1,10 +1,9 @@
-package udacity.nanodegree.android.p1.network.fetch.impl;
+package udacity.nanodegree.android.p1.util;
 
 import android.os.ConditionVariable;
 import android.util.Log;
 
 import org.junit.After;
-import org.junit.Before;
 
 /**
  * Created by alexandre on 12/01/2017.

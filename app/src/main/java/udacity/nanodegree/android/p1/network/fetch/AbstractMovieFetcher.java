@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 
 import udacity.nanodegree.android.p1.BuildConfig;
+import udacity.nanodegree.android.p1.R;
 
 /**
  * Created by alexandre on 11/01/2017.
@@ -12,7 +13,6 @@ import udacity.nanodegree.android.p1.BuildConfig;
 public abstract class AbstractMovieFetcher implements MovieFetcher {
     public static final String API_KEY_PARAM = "api_key";
     private UriComposer mMovieDbUriComposer;
-    private static final String BASE_URL = "https://api.themoviedb.org/3/movie/?";
     private Context mContext;
     private final ResponseListener mResponseListener;
     private ErrorListener mErrorListener;
@@ -29,7 +29,7 @@ public abstract class AbstractMovieFetcher implements MovieFetcher {
 
     @Override
     public void startFetch() {
-        doFetch(mMovieDbUriComposer.compose(Uri.parse(BASE_URL)).buildUpon().appendQueryParameter(
+        doFetch(mMovieDbUriComposer.compose(Uri.parse(mContext.getString(R.string.tmdb_api_base_url))).buildUpon().appendQueryParameter(
                 API_KEY_PARAM,
                 BuildConfig.MOVIE_DB_API_KEY).build());
     }

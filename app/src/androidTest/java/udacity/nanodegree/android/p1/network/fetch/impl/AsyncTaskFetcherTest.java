@@ -14,13 +14,14 @@ import org.junit.runner.RunWith;
 import udacity.nanodegree.android.p1.MainActivity;
 import udacity.nanodegree.android.p1.network.fetch.MovieFetcher;
 import udacity.nanodegree.android.p1.network.fetch.UriComposer;
+import udacity.nanodegree.android.p1.util.AbstractAsynkTest;
 
 /**
  * Created by alexandre on 12/01/2017.
  */
 
 @RunWith(AndroidJUnit4.class)
-public class AsyncTaskFetcherTest extends AbstractAsynkTest{
+public class AsyncTaskFetcherTest extends AbstractAsynkTest {
     private static final String TAG = "AsyncTaskFetcherTest";
     @Rule
     public final ActivityTestRule<MainActivity> mainActivityRule = new ActivityTestRule<>(

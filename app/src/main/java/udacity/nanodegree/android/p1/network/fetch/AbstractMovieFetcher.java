@@ -4,29 +4,32 @@ import android.content.Context;
 import android.net.Uri;
 
 import udacity.nanodegree.android.p1.BuildConfig;
+import udacity.nanodegree.android.p1.R;
 
 /**
  * Created by alexandre on 11/01/2017.
  */
 
-public abstract class AbstractMovieDbFetcher implements MovieDbFetcher {
+public abstract class AbstractMovieFetcher implements MovieFetcher {
     public static final String API_KEY_PARAM = "api_key";
-    private MovieDbUriComposer mMovieDbUriComposer;
-    private static final String BASE_URL = "https://api.themoviedb.org/3/movie/?";
+    private UriComposer mMovieDbUriComposer;
     private Context mContext;
-    private final MovieDbResponseListener mResponseListener;
-    private MovieDbErrorListener mErrorListener;
+    private final ResponseListener mResponseListener;
+    private ErrorListener mErrorListener;
 
-    protected AbstractMovieDbFetcher(Context context,
-            MovieDbUriComposer movieDbUriComposer, MovieDbResponseListener responseListener) {
+
+    protected AbstractMovieFetcher(Context context,
+            UriComposer movieDbUriComposer, ResponseListener responseListener,
+            ErrorListener errorListener) {
         mMovieDbUriComposer = movieDbUriComposer;
         mContext = context;
         this.mResponseListener = responseListener;
+        this.mErrorListener = errorListener;
     }
 
     @Override
     public void startFetch() {
-        doFetch(mMovieDbUriComposer.compose(Uri.parse(BASE_URL)).buildUpon().appendQueryParameter(
+        doFetch(mMovieDbUriComposer.compose(Uri.parse(mContext.getString(R.string.tmdb_api_base_url))).buildUpon().appendQueryParameter(
                 API_KEY_PARAM,
                 BuildConfig.MOVIE_DB_API_KEY).build());
     }
@@ -38,16 +41,16 @@ public abstract class AbstractMovieDbFetcher implements MovieDbFetcher {
         return mContext;
     }
 
-    public MovieDbResponseListener getResponseListener() {
+    public ResponseListener getResponseListener() {
         return mResponseListener;
     }
 
     public void setErrorListener(
-            MovieDbErrorListener errorListener) {
+            ErrorListener errorListener) {
         mErrorListener = errorListener;
     }
 
-    public MovieDbErrorListener getErrorListener() {
+    public ErrorListener getErrorListener() {
         return mErrorListener;
     }
 }

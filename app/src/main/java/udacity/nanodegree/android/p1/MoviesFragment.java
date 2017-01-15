@@ -77,7 +77,7 @@ public class MoviesFragment extends Fragment implements FetchMovies.Callback {
         Page page = gson.fromJson(jsonData, Page.class);
 
         if (page == null) {
-            Toast.makeText(getContext(), R.string.message_not_connected, Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), R.string.error_not_connected, Toast.LENGTH_LONG).show();
             return;
         }
 

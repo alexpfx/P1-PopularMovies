@@ -36,7 +36,8 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
 
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().add(R.id.container, new DetailFragment()).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.container,
+                    new DetailFragment()).commit();
         }
 
     }
@@ -67,7 +68,8 @@ public class DetailActivity extends AppCompatActivity {
 
         @Nullable
         @Override
-        public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                @Nullable Bundle savedInstanceState) {
             View view = inflater.inflate(R.layout.detail_fragment, container, false);
             ButterKnife.bind(this, view);
 
@@ -80,9 +82,10 @@ public class DetailActivity extends AppCompatActivity {
         public void onReceived(String data) {
             Gson gson = new Gson();
             Result result = gson.fromJson(data, Result.class);
-            Log.d(TAG, "onReceived: "+result);
+            Log.d(TAG, "onReceived: " + result);
             if (result == null) {
-                Toast.makeText(getContext(), R.string.error_not_connected, Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), R.string.error_not_connected,
+                        Toast.LENGTH_LONG).show();
                 return;
             }
 
@@ -90,10 +93,12 @@ public class DetailActivity extends AppCompatActivity {
             txtReleaseDate.setText(result.getReleaseDate());
             String path = getString(R.string.tmdb_image_base_path, result.getPosterPath());
 
-            Picasso.with(getContext()).load(path).placeholder(R.drawable.loading).error(R.drawable.error).into(this.imgPoster);
+            Picasso.with(getContext()).load(path).placeholder(R.drawable.loading).error(
+                    R.drawable.error).into(this.imgPoster);
             Calendar calendar;
             try {
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(getString(R.string.date_format), Locale.US);
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
+                        getString(R.string.date_format), Locale.US);
                 calendar = Calendar.getInstance();
                 calendar.setTime(simpleDateFormat.parse(result.getReleaseDate()));
 

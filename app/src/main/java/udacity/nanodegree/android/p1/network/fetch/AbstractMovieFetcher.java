@@ -12,9 +12,9 @@ import udacity.nanodegree.android.p1.R;
 
 public abstract class AbstractMovieFetcher implements MovieFetcher {
     public static final String API_KEY_PARAM = "api_key";
+    private final ResponseListener mResponseListener;
     private UriComposer mMovieDbUriComposer;
     private Context mContext;
-    private final ResponseListener mResponseListener;
     private ErrorListener mErrorListener;
 
 
@@ -29,7 +29,8 @@ public abstract class AbstractMovieFetcher implements MovieFetcher {
 
     @Override
     public void startFetch() {
-        doFetch(mMovieDbUriComposer.compose(Uri.parse(mContext.getString(R.string.tmdb_api_base_url))).buildUpon().appendQueryParameter(
+        doFetch(mMovieDbUriComposer.compose(Uri.parse(
+                mContext.getString(R.string.tmdb_api_base_url))).buildUpon().appendQueryParameter(
                 API_KEY_PARAM,
                 BuildConfig.MOVIE_DB_API_KEY).build());
     }
@@ -45,12 +46,12 @@ public abstract class AbstractMovieFetcher implements MovieFetcher {
         return mResponseListener;
     }
 
+    public ErrorListener getErrorListener() {
+        return mErrorListener;
+    }
+
     public void setErrorListener(
             ErrorListener errorListener) {
         mErrorListener = errorListener;
-    }
-
-    public ErrorListener getErrorListener() {
-        return mErrorListener;
     }
 }

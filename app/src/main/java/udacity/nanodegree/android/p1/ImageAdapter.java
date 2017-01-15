@@ -38,7 +38,8 @@ public class ImageAdapter extends ArrayAdapter<ImageAdapter.Item> {
 
         ViewHolder holder;
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.grid_view_item, parent, false);
+            convertView = LayoutInflater.from(context).inflate(R.layout.grid_view_item, parent,
+                    false);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         } else {
@@ -50,9 +51,10 @@ public class ImageAdapter extends ArrayAdapter<ImageAdapter.Item> {
 
         Item item = getItem(position);
         String path = context.getString(R.string.tmdb_image_base_path, item.getPath());
-        Log.d(TAG, "getView: "+path);
+        Log.d(TAG, "getView: " + path);
 
-        Picasso.with(context).load(path).placeholder(R.drawable.loading).error(R.drawable.error).into(holder.posterImage);
+        Picasso.with(context).load(path).placeholder(R.drawable.loading).error(
+                R.drawable.error).into(holder.posterImage);
 
         return convertView;
     }
@@ -69,13 +71,12 @@ public class ImageAdapter extends ArrayAdapter<ImageAdapter.Item> {
     }
 
     static class Item {
+        private final int id;
+        private final String path;
         public Item(int id, String path) {
             this.id = id;
             this.path = path;
         }
-
-        private final int id;
-        private final String path;
 
         public int getId() {
             return id;

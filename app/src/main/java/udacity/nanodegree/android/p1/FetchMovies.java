@@ -19,34 +19,24 @@ import java.net.URL;
 public class FetchMovies extends AsyncTask<String, Void, String> {
     private static final String URL_BASE = "https://api.themoviedb.org/3/movie/?";
     private static final String TAG = "FetchMovies";
-
+    private final FetchRules fetchRules;
+    private final Callback callback;
     public FetchMovies(FetchRules fetchRules, Callback callback) {
         this.fetchRules = fetchRules;
         this.callback = callback;
 
     }
 
-    private final FetchRules fetchRules;
-    private final Callback callback;
-
-
     @Override
     protected String doInBackground(String... params) {
-        Uri clientUrl = fetchRules.composeUrl(Uri.parse(URL_BASE)).buildUpon().appendQueryParameter("api_key", BuildConfig.MOVIE_DB_API_KEY).build();
+        Uri clientUrl = fetchRules.composeUrl(Uri.parse(URL_BASE)).buildUpon().appendQueryParameter(
+                "api_key", BuildConfig.MOVIE_DB_API_KEY).build();
         return fetchData(clientUrl);
-    }
-
-    public interface FetchRules {
-        Uri composeUrl(Uri baseUrl);
     }
 
     @Override
     protected void onPostExecute(String data) {
         callback.onReceived(data);
-    }
-
-    public interface Callback {
-        void onReceived(String data);
     }
 
     private String fetchData(Uri uri) {
@@ -77,6 +67,14 @@ public class FetchMovies extends AsyncTask<String, Void, String> {
             Log.e(TAG, "fetchData error: ", e);
         }
         return null;
+    }
+
+    public interface FetchRules {
+        Uri composeUrl(Uri baseUrl);
+    }
+
+    public interface Callback {
+        void onReceived(String data);
     }
 
 }

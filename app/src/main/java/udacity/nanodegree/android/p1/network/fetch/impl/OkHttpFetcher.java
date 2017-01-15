@@ -2,8 +2,6 @@ package udacity.nanodegree.android.p1.network.fetch.impl;
 
 import android.content.Context;
 import android.net.Uri;
-import android.support.annotation.Nullable;
-import android.util.Log;
 
 import java.io.IOException;
 

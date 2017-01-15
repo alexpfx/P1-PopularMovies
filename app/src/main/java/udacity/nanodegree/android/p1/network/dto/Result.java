@@ -1,9 +1,6 @@
 package udacity.nanodegree.android.p1.network.dto;
 
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
-import javax.annotation.Generated;
 
 public class Result {
 

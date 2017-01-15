@@ -26,6 +26,6 @@ public interface MovieFetcher {
      */
 
     interface ErrorListener {
-        void onError (String msg, @Nullable Object info, Throwable e);
+        void onError(String msg, @Nullable Object info, Throwable e);
     }
 }

@@ -7,5 +7,5 @@ import android.net.Uri;
  */
 
 public interface UriComposer {
-    Uri compose (Uri baseUrl);
+    Uri compose(Uri baseUrl);
 }

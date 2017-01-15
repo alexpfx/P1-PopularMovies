@@ -2,6 +2,7 @@ package udacity.nanodegree.android.p1;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,7 +49,8 @@ public class ImageAdapter extends ArrayAdapter<ImageAdapter.Item> {
         gridView.setColumnWidth((gridView.getWidth()) / 2);
 
         Item item = getItem(position);
-        String path = context.getString(R.string.tmdb_image_base_path) + item.getPath();
+        String path = context.getString(R.string.tmdb_image_base_path, item.getPath());
+        Log.d(TAG, "getView: "+path);
 
         Picasso.with(context).load(path).placeholder(R.drawable.loading).error(R.drawable.error).into(holder.posterImage);
 

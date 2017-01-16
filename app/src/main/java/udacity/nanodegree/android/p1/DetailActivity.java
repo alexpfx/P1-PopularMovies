@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,7 +55,7 @@ public class DetailActivity extends AppCompatActivity {
         @BindView(R.id.text_title)
         TextView txtTitle;
         @BindView(R.id.image_poster)
-        ImageView imgPoster;
+        ImageView mImgPoster;
 
         @BindView(R.id.text_vote_avg)
         TextView txtVoteAvg;
@@ -64,6 +65,9 @@ public class DetailActivity extends AppCompatActivity {
 
         @BindView(R.id.text_release_date)
         TextView txtReleaseDate;
+
+        @BindView(R.id.pb_progress_loading)
+        ProgressBar mProgressBar;
 
         @Override
         public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -90,7 +94,7 @@ public class DetailActivity extends AppCompatActivity {
 
         @Override
         public void onError(String msg, @Nullable Object info, Throwable e) {
-            
+
         }
 
         @Override
@@ -108,8 +112,10 @@ public class DetailActivity extends AppCompatActivity {
             txtReleaseDate.setText(result.getReleaseDate());
             String path = getString(R.string.tmdb_image_base_path, result.getPosterPath());
 
-            Picasso.with(getContext()).load(path).placeholder(R.drawable.loading).error(
-                    R.drawable.error).into(this.imgPoster);
+
+            Picasso.with(getContext()).load(path).error(R.drawable.ic_error).into(mImgPoster,
+                    new PicassoShowImageHideProgressBarCallback(mImgPoster, mProgressBar));
+
             Calendar calendar;
             try {
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat(

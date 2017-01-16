@@ -103,7 +103,11 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
 
             //TODO when there isn't a connection, onError is never called.
 
-            Picasso.with(mContext).load(path).error(R.drawable.ic_error).networkPolicy(
+
+            Picasso picasso = Picasso.with(mContext);
+            picasso.setIndicatorsEnabled(true);
+
+            picasso.load(path).error(R.drawable.ic_error).networkPolicy(
                     NetworkPolicy.OFFLINE).into(mImageView,
                     new PicassoShowImageHideProgressBarCallback(mImageView, mProgressBar));
         }

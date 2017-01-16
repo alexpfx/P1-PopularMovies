@@ -32,6 +32,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
+                android:id="@+id/image_poster_frame"
 
             >
                 <ProgressBar android:id="@+id/pb_progress_loading" android:layout_width="128dp"
@@ -52,7 +53,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                android:layout_toEndOf="@id/image_poster"
+                android:layout_toEndOf="@id/image_poster_frame"
                 android:orientation="vertical">
 
                 <TextView

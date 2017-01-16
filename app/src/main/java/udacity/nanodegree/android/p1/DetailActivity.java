@@ -24,6 +24,8 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import udacity.nanodegree.android.p1.network.dto.Result;
+import udacity.nanodegree.android.p1.network.fetch.MovieFetcher;
+import udacity.nanodegree.android.p1.network.fetch.impl.OkHttpFetcher;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -40,10 +42,14 @@ public class DetailActivity extends AppCompatActivity {
                     new DetailFragment()).commit();
         }
 
+
     }
 
 
-    public static class DetailFragment extends Fragment implements FetchMovies.Callback {
+    public static class DetailFragment extends Fragment implements MovieFetcher.ResponseListener,
+            MovieFetcher.ErrorListener {
+
+        private MovieFetcher mMovieFetcher;
 
         @BindView(R.id.text_title)
         TextView txtTitle;
@@ -63,6 +69,8 @@ public class DetailActivity extends AppCompatActivity {
         public void onCreate(@Nullable Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setHasOptionsMenu(true);
+
+
         }
 
 
@@ -74,12 +82,19 @@ public class DetailActivity extends AppCompatActivity {
             ButterKnife.bind(this, view);
 
             String id = getActivity().getIntent().getStringExtra(Intent.EXTRA_TEXT);
-            new FetchMovies(new GetMovie(id), this).execute();
+            mMovieFetcher = new OkHttpFetcher(getActivity(), this, this);
+            mMovieFetcher.startFetch(new GetMovie(id));
             return view;
         }
 
+
         @Override
-        public void onReceived(String data) {
+        public void onError(String msg, @Nullable Object info, Throwable e) {
+            
+        }
+
+        @Override
+        public void onResponse(String data) {
             Gson gson = new Gson();
             Result result = gson.fromJson(data, Result.class);
             Log.d(TAG, "onReceived: " + result);

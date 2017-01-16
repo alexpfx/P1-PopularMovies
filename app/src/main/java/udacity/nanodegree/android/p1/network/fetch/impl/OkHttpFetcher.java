@@ -2,6 +2,7 @@ package udacity.nanodegree.android.p1.network.fetch.impl;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.Handler;
 
 import java.io.IOException;
 
@@ -13,7 +14,6 @@ import okhttp3.Response;
 import udacity.nanodegree.android.p1.R;
 import udacity.nanodegree.android.p1.network.fetch.AbstractMovieFetcher;
 import udacity.nanodegree.android.p1.network.fetch.MovieFetcher;
-import udacity.nanodegree.android.p1.network.fetch.UriComposer;
 
 /**
  * Created by alexandre on 14/01/2017.
@@ -21,13 +21,13 @@ import udacity.nanodegree.android.p1.network.fetch.UriComposer;
 
 public class OkHttpFetcher extends AbstractMovieFetcher implements MovieFetcher, Callback {
     private static final String TAG = "OkHttpFetcher";
+    private Handler mHandler = new Handler(getContext().getMainLooper());
 
 
     public OkHttpFetcher(Context context,
-            UriComposer movieDbUriComposer,
             ResponseListener responseListener,
             ErrorListener errorListener) {
-        super(context, movieDbUriComposer, responseListener, errorListener);
+        super(context, responseListener, errorListener);
     }
 
     @Override
@@ -45,10 +45,19 @@ public class OkHttpFetcher extends AbstractMovieFetcher implements MovieFetcher,
     }
 
     @Override
-    public void onResponse(Call call, Response response) throws IOException {
+    public void onResponse(final Call call, final Response response) throws IOException {
         if (!response.isSuccessful()) onFailure(call, new IOException(response.message()));
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    getResponseListener().onResponse(response.body().string());
+                } catch (IOException e) {
+                    onFailure(call, e);
+                }
+            }
+        });
 
-        getResponseListener().onResponse(response.body().string());
 
     }
 }

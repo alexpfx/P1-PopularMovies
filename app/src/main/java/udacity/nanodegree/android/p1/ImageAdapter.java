@@ -73,6 +73,7 @@ public class ImageAdapter extends ArrayAdapter<ImageAdapter.Item> {
     static class Item {
         private final int id;
         private final String path;
+
         public Item(int id, String path) {
             this.id = id;
             this.path = path;

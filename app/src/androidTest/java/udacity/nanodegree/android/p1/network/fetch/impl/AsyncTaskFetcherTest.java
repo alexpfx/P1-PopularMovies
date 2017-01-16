@@ -31,12 +31,7 @@ public class AsyncTaskFetcherTest extends AbstractAsynkTest {
     @Test
     public void doFetch() throws Throwable {
 
-        new AsyncTaskFetcher(mainActivityRule.getActivity(), new UriComposer() {
-            @Override
-            public Uri compose(Uri baseUrl) {
-                return baseUrl.buildUpon().appendPath("455").build();
-            }
-        }, new MovieFetcher.ResponseListener() {
+        new AsyncTaskFetcher(mainActivityRule.getActivity(), new MovieFetcher.ResponseListener() {
             @Override
             public void onResponse(String data) {
                 Log.d(TAG, "onResponse: " + data);
@@ -50,7 +45,12 @@ public class AsyncTaskFetcherTest extends AbstractAsynkTest {
             public void onError(String msg, @Nullable Object info, Throwable e) {
 
             }
-        }).startFetch();
+        }).startFetch(new UriComposer() {
+            @Override
+            public Uri compose(Uri baseUrl) {
+                return baseUrl.buildUpon().appendPath("455").build();
+            }
+        });
         block();
     }
 

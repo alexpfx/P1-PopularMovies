@@ -28,17 +28,21 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/image_poster"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:contentDescription="@string/movie_poster"
-                android:maxHeight="185dp"
-                android:maxWidth="185dp"
-                android:scaleType="fitCenter"/>
+            <FrameLayout android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ProgressBar android:id="@+id/pb_progress_loading" android:layout_width="128dp"
+                    android:layout_height="128dp" android:visibility="visible"/>
+                <ImageView
+                    android:id="@+id/image_poster"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:contentDescription="@string/movie_poster"
+                    android:maxHeight="185dp"
+                    android:maxWidth="185dp"
+                    android:scaleType="fitCenter"/>
+            </FrameLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"

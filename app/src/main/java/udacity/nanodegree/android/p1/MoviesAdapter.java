@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.squareup.picasso.Picasso;
 
@@ -83,6 +84,9 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
     class MoviesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @BindView(R.id.poster_image)
         ImageView mImageView;
+
+        @BindView(R.id.pb_progress_loading)
+        ProgressBar mProgressBar;
         private OnMovieSelected mOnMovieSelected;
 
         public MoviesViewHolder(View itemView, OnMovieSelected onMovieSelected) {
@@ -92,11 +96,19 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
             mOnMovieSelected = onMovieSelected;
         }
 
+
+        public void showImage() {
+            mImageView.setVisibility(View.VISIBLE);
+            mProgressBar.setVisibility(View.GONE);
+        }
+
+
         public void bind(MovieViewModel model) {
             //TODO: placeholder e error
             String path = mContext.getString(R.string.tmdb_image_base_path, model.path);
 
-            Picasso.with(mContext).load(path).into(mImageView);
+            Picasso.with(mContext).load(path).into(mImageView,
+                    new PicassoShowImageHideProgressBarCallback(mImageView, mProgressBar));
         }
 
 

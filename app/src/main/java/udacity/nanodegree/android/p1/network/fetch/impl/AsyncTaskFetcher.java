@@ -15,7 +15,6 @@ import java.net.URL;
 import udacity.nanodegree.android.p1.R;
 import udacity.nanodegree.android.p1.network.fetch.AbstractMovieFetcher;
 import udacity.nanodegree.android.p1.network.fetch.MovieFetcher;
-import udacity.nanodegree.android.p1.network.fetch.UriComposer;
 
 /**
  * Created by alexandre on 12/01/2017.
@@ -24,30 +23,16 @@ import udacity.nanodegree.android.p1.network.fetch.UriComposer;
 public class AsyncTaskFetcher extends AbstractMovieFetcher implements MovieFetcher {
 
     public static final String GET = "GET";
-    AsyncTask<Uri, Void, String> backgroundTask = new AsyncTask<Uri, Void, String>() {
-        @Override
-        protected String doInBackground(Uri... params) {
-            return fetchData(params[0]);
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            getResponseListener().onResponse(s);
-        }
-
-
-    };
 
     public AsyncTaskFetcher(Context context,
-            UriComposer movieDbUriComposer,
             ResponseListener responseListener,
             @Nullable ErrorListener errorListener) {
-        super(context, movieDbUriComposer, responseListener, errorListener);
+        super(context, responseListener, errorListener);
     }
 
     @Override
     protected void doFetch(Uri uri) {
-        backgroundTask.execute(uri);
+        new BackgroundAsyncTask().execute(uri);
     }
 
     private String fetchData(Uri uri) {
@@ -79,6 +64,20 @@ public class AsyncTaskFetcher extends AbstractMovieFetcher implements MovieFetch
                     e);
         }
         return null;
+    }
+
+    class BackgroundAsyncTask extends AsyncTask<Uri, Void, String> {
+        @Override
+        protected String doInBackground(Uri... params) {
+            return fetchData(params[0]);
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            getResponseListener().onResponse(s);
+        }
+
+
     }
 
 

@@ -35,24 +35,24 @@ public class OkHttpFetcherTest extends AbstractAsynkTest {
     @Test
     public void startFetch() {
         new OkHttpFetcher(mainActivityRule.getActivity(),
-                new UriComposer() {
+                new MovieFetcher.ResponseListener() {
                     @Override
-                    public Uri compose(Uri baseUrl) {
-                        return baseUrl.buildUpon().appendPath("455").build();
+                    public void onResponse(String data) {
+                        Log.d(TAG, "onResponse: " + data);
+                        open();
                     }
-                }, new MovieFetcher.ResponseListener() {
-            @Override
-            public void onResponse(String data) {
-                Log.d(TAG, "onResponse: " + data);
-                open();
-            }
-        }, new MovieFetcher.ErrorListener() {
+                }, new MovieFetcher.ErrorListener() {
             @Override
             public void onError(String msg, @Nullable Object info, Throwable e) {
                 e.printStackTrace();
                 open();
             }
-        }).startFetch();
+        }).startFetch(new UriComposer() {
+            @Override
+            public Uri compose(Uri baseUrl) {
+                return baseUrl.buildUpon().appendPath("455").build();
+            }
+        });
         block();
     }
 

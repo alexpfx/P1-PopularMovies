@@ -10,7 +10,7 @@ import android.support.annotation.Nullable;
  *
  */
 public interface MovieFetcher {
-    void startFetch();
+    void startFetch(UriComposer mMovieDbUriComposer);
 
 
     /**

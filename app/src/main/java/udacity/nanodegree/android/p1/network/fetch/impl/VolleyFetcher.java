@@ -16,7 +16,6 @@ import org.json.JSONObject;
 import udacity.nanodegree.android.p1.R;
 import udacity.nanodegree.android.p1.network.fetch.AbstractMovieFetcher;
 import udacity.nanodegree.android.p1.network.fetch.MovieFetcher;
-import udacity.nanodegree.android.p1.network.fetch.UriComposer;
 
 /**
  * Created by alexandre on 11/01/2017.
@@ -28,10 +27,9 @@ public class VolleyFetcher extends AbstractMovieFetcher implements Response.Erro
 
 
     public VolleyFetcher(Context context,
-            UriComposer movieDbUriComposer,
             ResponseListener responseListener,
             @Nullable ErrorListener errorListener) {
-        super(context, movieDbUriComposer, responseListener, errorListener);
+        super(context, responseListener, errorListener);
     }
 
     @Override

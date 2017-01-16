@@ -25,19 +25,23 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import udacity.nanodegree.android.p1.network.dto.Page;
 import udacity.nanodegree.android.p1.network.dto.Result;
+import udacity.nanodegree.android.p1.network.fetch.MovieFetcher;
+import udacity.nanodegree.android.p1.network.fetch.UriComposer;
+import udacity.nanodegree.android.p1.network.fetch.impl.AsyncTaskFetcher;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MoviesFragment extends Fragment implements FetchMovies.Callback,
-        MoviesAdapter.OnMovieSelected {
+public class MoviesFragment extends Fragment implements
+        MoviesAdapter.OnMovieSelected, MovieFetcher.ErrorListener, MovieFetcher.ResponseListener {
     private static final String TAG = "MoviesFragment";
     private static final int SPAN_COUNT = 3;
 
     @BindView(R.id.rv_movie_list)
     RecyclerView mRecyclerView;
     private MoviesAdapter mAdapter;
+    private MovieFetcher mFetcher;
 
     public MoviesFragment() {
         // Required empty public constructor
@@ -59,8 +63,13 @@ public class MoviesFragment extends Fragment implements FetchMovies.Callback,
 
         initRecyclerView();
 
+//        mFetcher = new VolleyFetcher(getContext(), this, this);
+        mFetcher = new AsyncTaskFetcher(getContext(), this, this);
+
+
         fetchMovies(new GetPopularMovies());
         getActivity().setTitle(getString(R.string.most_popular));
+
 
         return view;
     }
@@ -73,31 +82,10 @@ public class MoviesFragment extends Fragment implements FetchMovies.Callback,
         mRecyclerView.setLayoutManager(gridLayoutManager);
     }
 
-    private void fetchMovies(FetchMovies.FetchRules fetchRules) {
-        new FetchMovies(fetchRules, this).execute();
+    private void fetchMovies(UriComposer composer) {
+        mFetcher.startFetch(composer);
     }
 
-    @Override
-    public void onReceived(String jsonData) {
-        Gson gson = new Gson();
-        Page page = gson.fromJson(jsonData, Page.class);
-
-        Log.d(TAG, "onReceived: " + jsonData);
-        Log.d(TAG, "onReceived: " + page);
-
-        if (page == null) {
-            Toast.makeText(getContext(), R.string.error_not_connected, Toast.LENGTH_LONG).show();
-            return;
-        }
-
-        List<Result> results = page.getResults();
-        Log.d(TAG, "onReceived: " + results);
-        List<MoviesAdapter.MovieViewModel> paths = new ArrayList<>();
-        for (Result r : results) {
-            paths.add(new MoviesAdapter.MovieViewModel(r.getId(), r.getPosterPath()));
-        }
-        mAdapter.setData(paths);
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -128,5 +116,34 @@ public class MoviesFragment extends Fragment implements FetchMovies.Callback,
         Log.d(TAG, "onItemClick: " + id);
         startActivity(intent);
     }
+
+    @Override
+    public void onError(String msg, @Nullable Object info, Throwable e) {
+
+    }
+
+    @Override
+    public void onResponse(String jsonData) {
+        Gson gson = new Gson();
+        Page page = gson.fromJson(jsonData, Page.class);
+
+        Log.d(TAG, "onReceived: " + jsonData);
+        Log.d(TAG, "onReceived: " + page);
+
+        if (page == null) {
+            Toast.makeText(getContext(), R.string.error_not_connected, Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        List<Result> results = page.getResults();
+        Log.d(TAG, "onReceived: " + results);
+        List<MoviesAdapter.MovieViewModel> paths = new ArrayList<>();
+        for (Result r : results) {
+            paths.add(new MoviesAdapter.MovieViewModel(r.getId(), r.getPosterPath()));
+        }
+        mAdapter.setData(paths);
+
+    }
+
 
 }

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -97,17 +98,13 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
         }
 
 
-        public void showImage() {
-            mImageView.setVisibility(View.VISIBLE);
-            mProgressBar.setVisibility(View.GONE);
-        }
-
-
         public void bind(MovieViewModel model) {
-            //TODO: placeholder e error
             String path = mContext.getString(R.string.tmdb_image_base_path, model.path);
 
-            Picasso.with(mContext).load(path).into(mImageView,
+            //TODO when there isn't a connection, onError is never called.
+
+            Picasso.with(mContext).load(path).error(R.drawable.ic_error).networkPolicy(
+                    NetworkPolicy.OFFLINE).into(mImageView,
                     new PicassoShowImageHideProgressBarCallback(mImageView, mProgressBar));
         }
 

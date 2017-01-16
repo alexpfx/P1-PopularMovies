@@ -55,7 +55,7 @@ public class DetailActivity extends AppCompatActivity {
         @BindView(R.id.text_title)
         TextView txtTitle;
         @BindView(R.id.image_poster)
-        ImageView imgPoster;
+        ImageView mImgPoster;
 
         @BindView(R.id.text_vote_avg)
         TextView txtVoteAvg;
@@ -113,8 +113,8 @@ public class DetailActivity extends AppCompatActivity {
             String path = getString(R.string.tmdb_image_base_path, result.getPosterPath());
 
 
-            Picasso.with(getContext()).load(path).into(this.imgPoster,
-                    new PicassoShowImageHideProgressBarCallback(imgPoster, mProgressBar));
+            Picasso.with(getContext()).load(path).error(R.drawable.ic_error).into(mImgPoster,
+                    new PicassoShowImageHideProgressBarCallback(mImgPoster, mProgressBar));
 
             Calendar calendar;
             try {

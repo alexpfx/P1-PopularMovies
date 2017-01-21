@@ -5,6 +5,9 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Simple data trasnfer class to handle data from json.
+ */
 public class Page {
 
     @SerializedName("page")

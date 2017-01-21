@@ -36,7 +36,7 @@ import udacity.nanodegree.android.p1.network.fetch.impl.OkHttpFetcher;
 public class MoviesFragment extends Fragment implements
         MoviesAdapter.OnMovieSelected, MovieFetcher.ErrorListener, MovieFetcher.ResponseListener {
     private static final String TAG = "MoviesFragment";
-    private static final int SPAN_COUNT = 3;
+    private static final int SPAN_COUNT = 2;
 
     @BindView(R.id.rv_movie_list)
     RecyclerView mRecyclerView;
@@ -112,7 +112,6 @@ public class MoviesFragment extends Fragment implements
     public void onMovieSelected(int id) {
         Intent intent = new Intent(getActivity(), DetailActivity.class).putExtra(Intent.EXTRA_TEXT,
                 String.valueOf(id));
-        Log.d(TAG, "onItemClick: " + id);
         startActivity(intent);
     }
 
@@ -127,9 +126,6 @@ public class MoviesFragment extends Fragment implements
     public void onResponse(String jsonData) {
         Gson gson = new Gson();
         Page page = gson.fromJson(jsonData, Page.class);
-
-        Log.d(TAG, "onReceived: " + jsonData);
-        Log.d(TAG, "onReceived: " + page);
 
         if (page == null) {
             Toast.makeText(getContext(), R.string.error_not_connected, Toast.LENGTH_LONG).show();

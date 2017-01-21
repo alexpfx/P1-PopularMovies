@@ -16,9 +16,8 @@ import udacity.nanodegree.android.p1.network.fetch.AbstractMovieFetcher;
 import udacity.nanodegree.android.p1.network.fetch.MovieFetcher;
 
 /**
- * Created by alexandre on 14/01/2017.
+ * MovieFetcher implementation using OkHttp as Http client.
  */
-
 public class OkHttpFetcher extends AbstractMovieFetcher implements MovieFetcher, Callback {
     private static final String TAG = "OkHttpFetcher";
     private Handler mHandler = new Handler(getContext().getMainLooper());

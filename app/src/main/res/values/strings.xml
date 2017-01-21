@@ -6,9 +6,9 @@
     <string name="top_rated">Highest Rated</string>
     <string name="date_format">yyyy-MM-dd</string>
     <string name="movie_poster">Movie Poster</string>
-    <string name="error_not_connected">Unable to retrieve movie data, please make sure you are
-        connected
+    <string name="error_not_connected">Please, check your Internet connection.
     </string>
+    <string name="error_when_fetch_data">Error while fetching data. Please, check your Internet connection.</string>
 
     <string name="tmdb_image_base_path">
         <xliff:g id="tmdb_base_url">

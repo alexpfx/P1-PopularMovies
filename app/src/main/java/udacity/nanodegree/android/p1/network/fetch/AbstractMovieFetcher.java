@@ -7,9 +7,8 @@ import udacity.nanodegree.android.p1.BuildConfig;
 import udacity.nanodegree.android.p1.R;
 
 /**
- * Created by alexandre on 11/01/2017.
+ * TODO: javadoc. Explain how it works.
  */
-
 public abstract class AbstractMovieFetcher implements MovieFetcher {
     public static final String API_KEY_PARAM = "api_key";
     private final ResponseListener mResponseListener;

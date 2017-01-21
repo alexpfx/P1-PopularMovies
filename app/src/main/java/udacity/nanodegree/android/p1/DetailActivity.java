@@ -43,7 +43,6 @@ public class DetailActivity extends AppCompatActivity {
                     new DetailFragment()).commit();
         }
 
-
     }
 
 
@@ -74,7 +73,6 @@ public class DetailActivity extends AppCompatActivity {
             super.onCreate(savedInstanceState);
             setHasOptionsMenu(true);
 
-
         }
 
 
@@ -86,6 +84,7 @@ public class DetailActivity extends AppCompatActivity {
             ButterKnife.bind(this, view);
 
             String id = getActivity().getIntent().getStringExtra(Intent.EXTRA_TEXT);
+
             mMovieFetcher = new OkHttpFetcher(getActivity(), this, this);
             mMovieFetcher.startFetch(new GetMovie(id));
             return view;
@@ -94,7 +93,8 @@ public class DetailActivity extends AppCompatActivity {
 
         @Override
         public void onError(String msg, @Nullable Object info, Throwable e) {
-            e.printStackTrace();
+            Log.e(TAG, "onError: ", e);
+            Toast.makeText(getContext(), getString(R.string.error_when_fetch_data), Toast.LENGTH_SHORT).show();
         }
 
         @Override
@@ -118,6 +118,7 @@ public class DetailActivity extends AppCompatActivity {
 
             Calendar calendar;
             try {
+                //TODO: ver se precisa disso. Fazer igual ao P2.
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
                         getString(R.string.date_format), Locale.US);
                 calendar = Calendar.getInstance();

@@ -14,7 +14,6 @@ import com.squareup.picasso.Callback;
 public class PicassoShowImageHideProgressBarCallback extends Callback.EmptyCallback {
     private ImageView mImageView;
     private ProgressBar mProgressBar;
-    private static final String TAG = "PicassoShowImageHidePro";
 
     public PicassoShowImageHideProgressBarCallback(ImageView imageView,
             ProgressBar progressBar) {
@@ -30,7 +29,6 @@ public class PicassoShowImageHideProgressBarCallback extends Callback.EmptyCallb
 
     @Override
     public void onError() {
-        Log.d(TAG, "onError: ");
         mProgressBar.setVisibility(View.GONE);
     }
 }

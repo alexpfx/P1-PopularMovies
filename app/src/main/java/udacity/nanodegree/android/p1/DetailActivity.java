@@ -94,7 +94,7 @@ public class DetailActivity extends AppCompatActivity {
 
         @Override
         public void onError(String msg, @Nullable Object info, Throwable e) {
-
+            e.printStackTrace();
         }
 
         @Override

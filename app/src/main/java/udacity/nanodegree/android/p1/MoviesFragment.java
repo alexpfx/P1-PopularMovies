@@ -44,7 +44,6 @@ public class MoviesFragment extends Fragment implements
     private MovieFetcher mFetcher;
 
     public MoviesFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -119,6 +118,8 @@ public class MoviesFragment extends Fragment implements
 
     @Override
     public void onError(String msg, @Nullable Object info, Throwable e) {
+        Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+        e.printStackTrace();
 
     }
 

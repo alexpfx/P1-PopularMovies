@@ -107,8 +107,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
             Picasso picasso = Picasso.with(mContext);
             picasso.setIndicatorsEnabled(true);
 
-            picasso.load(path).error(R.drawable.ic_error).networkPolicy(
-                    NetworkPolicy.OFFLINE).into(mImageView,
+            picasso.load(path).error(R.drawable.ic_error).into(mImageView,
                     new PicassoShowImageHideProgressBarCallback(mImageView, mProgressBar));
         }
 

@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
-import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -103,10 +102,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
 
             //TODO when there isn't a connection, onError is never called.
 
-
             Picasso picasso = Picasso.with(mContext);
-            picasso.setIndicatorsEnabled(true);
-
             picasso.load(path).error(R.drawable.ic_error).into(mImageView,
                     new PicassoShowImageHideProgressBarCallback(mImageView, mProgressBar));
         }

@@ -18,9 +18,8 @@ import udacity.nanodegree.android.p1.network.fetch.AbstractMovieFetcher;
 import udacity.nanodegree.android.p1.network.fetch.MovieFetcher;
 
 /**
- * Created by alexandre on 11/01/2017.
+ * MovieFetcher implementation using VolleyFetcher for Network layer.
  */
-
 public class VolleyFetcher extends AbstractMovieFetcher implements Response.ErrorListener,
         MovieFetcher,
         Response.Listener<JSONObject> {

@@ -9,11 +9,10 @@ import udacity.nanodegree.android.p1.network.fetch.UriComposer;
  */
 public class GetPopularMovies implements UriComposer {
 
-    private static final String TAG = "GetPopularMovies";
-
+    public static final String POPULAR = "popular";
 
     @Override
     public Uri compose(Uri baseUrl) {
-        return baseUrl.buildUpon().appendPath("popular").build();
+        return baseUrl.buildUpon().appendPath(POPULAR).build();
     }
 }

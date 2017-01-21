@@ -1,7 +1,9 @@
 package udacity.nanodegree.android.p1.network.dto;
 
 import com.google.gson.annotations.SerializedName;
-
+/**
+ * Simple data trasnfer class to handle data from json.
+ */
 public class Result {
 
     @SerializedName("poster_path")

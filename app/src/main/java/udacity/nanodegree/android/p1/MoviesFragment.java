@@ -27,7 +27,7 @@ import udacity.nanodegree.android.p1.network.dto.Page;
 import udacity.nanodegree.android.p1.network.dto.Result;
 import udacity.nanodegree.android.p1.network.fetch.MovieFetcher;
 import udacity.nanodegree.android.p1.network.fetch.UriComposer;
-import udacity.nanodegree.android.p1.network.fetch.impl.AsyncTaskFetcher;
+import udacity.nanodegree.android.p1.network.fetch.impl.OkHttpFetcher;
 
 
 /**
@@ -63,7 +63,7 @@ public class MoviesFragment extends Fragment implements
         initRecyclerView();
 
 //        mFetcher = new VolleyFetcher(getContext(), this, this);
-        mFetcher = new AsyncTaskFetcher(getContext(), this, this);
+        mFetcher = new OkHttpFetcher(getContext(), this, this);
 
 
         fetchMovies(new GetPopularMovies());

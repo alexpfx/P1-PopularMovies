@@ -7,7 +7,6 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
 
-import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,24 +17,27 @@ import udacity.nanodegree.android.p1.network.fetch.UriComposer;
 import udacity.nanodegree.android.p1.util.AbstractAsynkTest;
 
 /**
+ * Created by alexandre on 14/01/2017.
+ */
+
+/**
  * Created by alexandre on 11/01/2017.
  */
 @RunWith(AndroidJUnit4.class)
 @SmallTest
-public class VolleyFetcherTest extends AbstractAsynkTest {
-    private static final String TAG = "VolleyFetcherTest";
+public class OkHttpFetcherTest extends AbstractAsynkTest {
+    private static final String TAG = "OkHttpFetcherTest";
     @Rule
     public ActivityTestRule<MainActivity> mainActivityRule = new ActivityTestRule<>(
             MainActivity.class);
 
 
     @Test
-    public void start() throws Throwable {
-        new VolleyFetcher(mainActivityRule.getActivity().getApplicationContext(),
+    public void startFetch() {
+        new OkHttpFetcher(mainActivityRule.getActivity(),
                 new MovieFetcher.ResponseListener() {
                     @Override
                     public void onResponse(String data) {
-                        Assert.assertNotNull(data);
                         Log.d(TAG, "onResponse: " + data);
                         open();
                     }
@@ -44,7 +46,6 @@ public class VolleyFetcherTest extends AbstractAsynkTest {
             public void onError(String msg, @Nullable Object info, Throwable e) {
                 e.printStackTrace();
                 open();
-
             }
         }).startFetch(new UriComposer() {
             @Override
@@ -52,8 +53,8 @@ public class VolleyFetcherTest extends AbstractAsynkTest {
                 return baseUrl.buildUpon().appendPath("455").build();
             }
         });
-
         block();
     }
+
 
 }

@@ -2,6 +2,7 @@ package udacity.nanodegree.android.p1.network.fetch.impl;
 
 import android.content.Context;
 import android.net.Uri;
+import android.support.annotation.Nullable;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -12,36 +13,32 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONObject;
 
-import udacity.nanodegree.android.p1.network.fetch.AbstractMovieDbFetcher;
-import udacity.nanodegree.android.p1.network.fetch.MovieDbErrorListener;
-import udacity.nanodegree.android.p1.network.fetch.MovieDbFetcher;
-import udacity.nanodegree.android.p1.network.fetch.MovieDbResponseListener;
-import udacity.nanodegree.android.p1.network.fetch.MovieDbUriComposer;
+import udacity.nanodegree.android.p1.R;
+import udacity.nanodegree.android.p1.network.fetch.AbstractMovieFetcher;
+import udacity.nanodegree.android.p1.network.fetch.MovieFetcher;
 
 /**
- * Created by alexandre on 11/01/2017.
+ * MovieFetcher implementation using VolleyFetcher for Network layer.
  */
-
-public class VolleyFetcher extends AbstractMovieDbFetcher implements Response.ErrorListener,
-        MovieDbFetcher,
+public class VolleyFetcher extends AbstractMovieFetcher implements Response.ErrorListener,
+        MovieFetcher,
         Response.Listener<JSONObject> {
 
 
     public VolleyFetcher(Context context,
-            MovieDbUriComposer movieDbUriComposer, MovieDbResponseListener responseListener) {
-        super(context, movieDbUriComposer, responseListener);
-    }
+            ResponseListener responseListener,
+            @Nullable ErrorListener errorListener) {
+        super(context, responseListener, errorListener);
 
-    public VolleyFetcher(Context context,
-            MovieDbUriComposer movieDbUriComposer, MovieDbResponseListener responseListener,
-            MovieDbErrorListener errorListener) {
-        this(context, movieDbUriComposer, responseListener);
-        setErrorListener(errorListener);
-    }
 
+
+    }
 
     @Override
     protected void doFetch(Uri uri) {
+
+
+
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
                 uri.toString(), null, this, this);
         RequestQueue queue = Volley.newRequestQueue(getContext());
@@ -50,11 +47,8 @@ public class VolleyFetcher extends AbstractMovieDbFetcher implements Response.Er
 
 
     @Override
-    public void onErrorResponse(VolleyError error) {
-        if (getErrorListener() == null) {
-            return;
-        }
-        getErrorListener().onError(error.getMessage(), error.networkResponse, error.getCause());
+    public void onErrorResponse(VolleyError e) {
+        getErrorListener().onError(getContext().getString(R.string.error_not_connected), null, e);
     }
 
     @Override

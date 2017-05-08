@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +25,9 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import udacity.nanodegree.android.p1.network.dto.Result;
+import udacity.nanodegree.android.p1.network.fetch.MovieFetcher;
+import udacity.nanodegree.android.p1.network.fetch.impl.OkHttpFetcher;
+import udacity.nanodegree.android.p1.network.fetch.impl.RetrofitFetcher;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -36,18 +40,22 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
 
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().add(R.id.container, new DetailFragment()).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.container,
+                    new DetailFragment()).commit();
         }
 
     }
 
 
-    public static class DetailFragment extends Fragment implements FetchMovies.Callback {
+    public static class DetailFragment extends Fragment implements MovieFetcher.ResponseListener,
+            MovieFetcher.ErrorListener {
+
+        private MovieFetcher mMovieFetcher;
 
         @BindView(R.id.text_title)
         TextView txtTitle;
         @BindView(R.id.image_poster)
-        ImageView imgPoster;
+        ImageView mImgPoster;
 
         @BindView(R.id.text_vote_avg)
         TextView txtVoteAvg;
@@ -58,42 +66,63 @@ public class DetailActivity extends AppCompatActivity {
         @BindView(R.id.text_release_date)
         TextView txtReleaseDate;
 
+        @BindView(R.id.pb_progress_loading)
+        ProgressBar mProgressBar;
+
         @Override
         public void onCreate(@Nullable Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setHasOptionsMenu(true);
+
         }
 
 
         @Nullable
         @Override
-        public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                @Nullable Bundle savedInstanceState) {
             View view = inflater.inflate(R.layout.detail_fragment, container, false);
             ButterKnife.bind(this, view);
 
             String id = getActivity().getIntent().getStringExtra(Intent.EXTRA_TEXT);
-            new FetchMovies(new GetMovie(id), this).execute();
+
+            mMovieFetcher = new RetrofitFetcher(getActivity(), this, this);
+//            mMovieFetcher = new OkHttpFetcher(getActivity(), this, this);
+            mMovieFetcher.startFetch(new GetMovie(id));
             return view;
         }
 
+
         @Override
-        public void onReceived(String data) {
+        public void onError(String msg, @Nullable Object info, Throwable e) {
+            Log.e(TAG, "onError: ", e);
+            Toast.makeText(getContext(), getString(R.string.error_when_fetch_data), Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onResponse(String data) {
             Gson gson = new Gson();
             Result result = gson.fromJson(data, Result.class);
-            Log.d(TAG, "onReceived: "+result);
+            Log.d(TAG, "onReceived: " + result);
             if (result == null) {
-                Toast.makeText(getContext(), R.string.message_not_connected, Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), R.string.error_not_connected,
+                        Toast.LENGTH_LONG).show();
                 return;
             }
 
             txtTitle.setText(result.getOriginalTitle());
             txtReleaseDate.setText(result.getReleaseDate());
-            String path = getString(R.string.tmdb_image_base_path) + result.getPosterPath();
+            String path = getString(R.string.tmdb_image_base_path, result.getPosterPath());
 
-            Picasso.with(getContext()).load(path).placeholder(R.drawable.loading).error(R.drawable.error).into(this.imgPoster);
+
+            Picasso.with(getContext()).load(path).error(R.drawable.ic_error).into(mImgPoster,
+                    new PicassoShowImageHideProgressBarCallback(mImgPoster, mProgressBar));
+
             Calendar calendar;
             try {
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(getString(R.string.date_format), Locale.US);
+                //TODO: ver se precisa disso. Fazer igual ao P2.
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
+                        getString(R.string.date_format), Locale.US);
                 calendar = Calendar.getInstance();
                 calendar.setTime(simpleDateFormat.parse(result.getReleaseDate()));
 

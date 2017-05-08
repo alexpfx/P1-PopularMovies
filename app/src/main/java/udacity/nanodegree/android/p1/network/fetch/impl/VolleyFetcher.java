@@ -29,10 +29,16 @@ public class VolleyFetcher extends AbstractMovieFetcher implements Response.Erro
             ResponseListener responseListener,
             @Nullable ErrorListener errorListener) {
         super(context, responseListener, errorListener);
+
+
+
     }
 
     @Override
     protected void doFetch(Uri uri) {
+
+
+
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
                 uri.toString(), null, this, this);
         RequestQueue queue = Volley.newRequestQueue(getContext());

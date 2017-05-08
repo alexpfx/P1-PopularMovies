@@ -27,6 +27,7 @@ import butterknife.ButterKnife;
 import udacity.nanodegree.android.p1.network.dto.Result;
 import udacity.nanodegree.android.p1.network.fetch.MovieFetcher;
 import udacity.nanodegree.android.p1.network.fetch.impl.OkHttpFetcher;
+import udacity.nanodegree.android.p1.network.fetch.impl.RetrofitFetcher;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -85,7 +86,8 @@ public class DetailActivity extends AppCompatActivity {
 
             String id = getActivity().getIntent().getStringExtra(Intent.EXTRA_TEXT);
 
-            mMovieFetcher = new OkHttpFetcher(getActivity(), this, this);
+            mMovieFetcher = new RetrofitFetcher(getActivity(), this, this);
+//            mMovieFetcher = new OkHttpFetcher(getActivity(), this, this);
             mMovieFetcher.startFetch(new GetMovie(id));
             return view;
         }

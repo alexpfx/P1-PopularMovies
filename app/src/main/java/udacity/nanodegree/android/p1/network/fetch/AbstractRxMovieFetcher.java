@@ -11,10 +11,14 @@ import udacity.nanodegree.android.p1.R;
  * Created by alexandre on 08/05/2017.
  */
 
-public abstract class RxMovieFetcherImpl<T> implements RxMovieFetcher<Observable<T>> {
+public abstract class AbstractRxMovieFetcher<T> implements RxMovieFetcher<Observable<T>> {
     public static final String API_KEY_PARAM = "api_key";
+
     private Context mContext;
-    private MovieFetcher.ErrorListener mErrorListener;
+
+    public AbstractRxMovieFetcher(Context context) {
+        mContext = context;
+    }
 
     @Override
     public Observable<T> startFetch(UriComposer composer) {

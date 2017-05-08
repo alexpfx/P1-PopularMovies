@@ -24,10 +24,15 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import udacity.nanodegree.android.p1.network.dto.Result;
 import udacity.nanodegree.android.p1.network.fetch.MovieFetcher;
+import udacity.nanodegree.android.p1.network.fetch.RxMovieFetcher;
 import udacity.nanodegree.android.p1.network.fetch.impl.OkHttpFetcher;
 import udacity.nanodegree.android.p1.network.fetch.impl.RetrofitFetcher;
+import udacity.nanodegree.android.p1.network.fetch.impl.RetrofitRxFetcher;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -40,8 +45,10 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
 
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().add(R.id.container,
-                    new DetailFragment()).commit();
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.container,
+                         new DetailFragment())
+                    .commit();
         }
 
     }
@@ -51,6 +58,7 @@ public class DetailActivity extends AppCompatActivity {
             MovieFetcher.ErrorListener {
 
         private MovieFetcher mMovieFetcher;
+        private RxMovieFetcher<Observable<String>> mRxMovieFetcher;
 
         @BindView(R.id.text_title)
         TextView txtTitle;
@@ -80,15 +88,27 @@ public class DetailActivity extends AppCompatActivity {
         @Nullable
         @Override
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-                @Nullable Bundle savedInstanceState) {
+                                 @Nullable Bundle savedInstanceState) {
             View view = inflater.inflate(R.layout.detail_fragment, container, false);
             ButterKnife.bind(this, view);
 
-            String id = getActivity().getIntent().getStringExtra(Intent.EXTRA_TEXT);
+            String id = getActivity().getIntent()
+                    .getStringExtra(Intent.EXTRA_TEXT);
 
-            mMovieFetcher = new RetrofitFetcher(getActivity(), this, this);
+            mRxMovieFetcher = new RetrofitRxFetcher(getContext());
+
+            Observable<String> result = mRxMovieFetcher.startFetch(new GetMovie(id));
+            result.subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(r -> {
+                        onResponse(r);
+                    }, error -> onError(error.getMessage(), null, error), () -> {
+                        Log.d(TAG, "onCreateView: fetch movies complete");
+                    });
+
+//            mMovieFetcher = new RetrofitFetcher(getActivity(), this, this);
 //            mMovieFetcher = new OkHttpFetcher(getActivity(), this, this);
-            mMovieFetcher.startFetch(new GetMovie(id));
+//            mMovieFetcher.startFetch(new GetMovie(id));
             return view;
         }
 
@@ -96,7 +116,9 @@ public class DetailActivity extends AppCompatActivity {
         @Override
         public void onError(String msg, @Nullable Object info, Throwable e) {
             Log.e(TAG, "onError: ", e);
-            Toast.makeText(getContext(), getString(R.string.error_when_fetch_data), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), getString(R.string.error_when_fetch_data),
+                           Toast.LENGTH_SHORT)
+                    .show();
         }
 
         @Override
@@ -106,7 +128,8 @@ public class DetailActivity extends AppCompatActivity {
             Log.d(TAG, "onReceived: " + result);
             if (result == null) {
                 Toast.makeText(getContext(), R.string.error_not_connected,
-                        Toast.LENGTH_LONG).show();
+                               Toast.LENGTH_LONG)
+                        .show();
                 return;
             }
 
@@ -115,8 +138,11 @@ public class DetailActivity extends AppCompatActivity {
             String path = getString(R.string.tmdb_image_base_path, result.getPosterPath());
 
 
-            Picasso.with(getContext()).load(path).error(R.drawable.ic_error).into(mImgPoster,
-                    new PicassoShowImageHideProgressBarCallback(mImgPoster, mProgressBar));
+            Picasso.with(getContext())
+                    .load(path)
+                    .error(R.drawable.ic_error)
+                    .into(mImgPoster,
+                          new PicassoShowImageHideProgressBarCallback(mImgPoster, mProgressBar));
 
             Calendar calendar;
             try {

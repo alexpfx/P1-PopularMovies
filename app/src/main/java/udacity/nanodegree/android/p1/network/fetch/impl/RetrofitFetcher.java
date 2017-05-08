@@ -31,10 +31,14 @@ public class RetrofitFetcher extends AbstractMovieFetcher implements Callback<St
         Query query = retrofit.create(Query.class);
         Call<String> call = query.queryMovieDatabase(uri.toString());
         call.enqueue(this);
+
     }
+
+
 
     @Override
     public void onResponse(Call<String> call, Response<String> response) {
+
         getResponseListener().onResponse(response.body());
     }
 

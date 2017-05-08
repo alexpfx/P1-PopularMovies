@@ -6,9 +6,6 @@ import android.net.Uri;
 import udacity.nanodegree.android.p1.BuildConfig;
 import udacity.nanodegree.android.p1.R;
 
-/**
- * TODO: javadoc. Explain how it works.
- */
 public abstract class AbstractMovieFetcher implements MovieFetcher {
     public static final String API_KEY_PARAM = "api_key";
     private final ResponseListener mResponseListener;
